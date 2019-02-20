@@ -10,7 +10,7 @@
         android:id="@+id/stone_button"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="196dp"
+        android:layout_marginTop="140dp"
         android:layout_marginEnd="34dp"
         android:layout_marginBottom="185dp"
         android:layout_x="118dp"
@@ -37,7 +37,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/stone_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/paper_button"
@@ -46,7 +47,7 @@
         android:layout_marginStart="367dp"
         android:layout_marginTop="150dp"
         android:layout_marginEnd="34dp"
-        android:layout_marginBottom="181dp"
+        android:layout_marginBottom="120dp"
         android:layout_x="118dp"
         android:layout_y="95dp"
         android:background="@drawable/paperpic"
@@ -55,4 +56,48 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/stone_button" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="224dp"
+        android:layout_height="237dp"
+        android:layout_marginStart="65dp"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="78dp"
+        android:layout_marginBottom="102dp"
+        android:adjustViewBounds="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/paper_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scissors_button"
+        app:srcCompat="@drawable/ic_subdirectory_arrow_right_black_24dp" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="224dp"
+        android:layout_height="237dp"
+        android:layout_marginTop="124dp"
+        android:layout_marginEnd="50dp"
+        android:rotation="90"
+        app:layout_constraintBottom_toTopOf="@+id/imageView2"
+        app:layout_constraintEnd_toStartOf="@+id/stone_button"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_subdirectory_arrow_right_black_24dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="247dp"
+        android:layout_height="223dp"
+        android:layout_marginStart="118dp"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="69dp"
+        app:layout_constraintBottom_toTopOf="@+id/paper_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/scissors_button"
+        app:layout_constraintTop_toBottomOf="@+id/stone_button"
+        app:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
+
+
 </android.support.constraint.ConstraintLayout>
