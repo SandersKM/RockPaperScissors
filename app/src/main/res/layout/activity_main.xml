@@ -15,6 +15,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginEnd="178dp"
         android:text="@string/ip_address"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,6 +33,7 @@
         android:layout_marginTop="60dp"
         android:layout_marginRight="60dp"
         android:text="@string/port"
+        android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Display2"
         android:textColor="@android:color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -90,5 +92,22 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/IP_textbox" />
+
+    <TextView
+        android:id="@+id/IP_device"
+        android:layout_width="596dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="2dp"
+        android:layout_marginTop="26dp"
+        android:layout_marginEnd="3dp"
+        android:layout_marginBottom="82dp"
+        android:text="@string/myIP"
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display2"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/IP_label"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

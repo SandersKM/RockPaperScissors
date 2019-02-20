@@ -4,4 +4,5 @@
     <string name="port_number">Port Number</string>
     <string name="send_request">Send Request</string>
     <string name="port">Port</string>
+    <string name="myIP" />
 </resources>
