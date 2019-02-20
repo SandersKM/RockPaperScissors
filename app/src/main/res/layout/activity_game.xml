@@ -6,4 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".Game">
 
+    <ImageButton
+        android:id="@+id/imageButton"
+        android:layout_width="280dp"
+        android:layout_height="227dp"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="198dp"
+        tools:srcCompat="@tools:sample/backgrounds/scenic[10]" />
 </android.support.constraint.ConstraintLayout>
