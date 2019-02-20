@@ -16,6 +16,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findIDs();
+        inviteListener();
+    }
+
+    private void inviteListener() {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
