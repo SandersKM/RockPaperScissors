@@ -3,7 +3,7 @@ package com.example.rockpaperscissors;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class Game extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

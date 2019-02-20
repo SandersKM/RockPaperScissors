@@ -1,6 +1,5 @@
 package com.example.rockpaperscissors;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,11 +18,13 @@ public class MainActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent forwardIntent = new Intent(MainActivity.this, Game.class);
+                Intent forwardIntent = new Intent(MainActivity.this, GameActivity.class);
                 startActivity(forwardIntent);
             }
         });
     }
 
-
+    // TODO overall stats and stats by player
+    // TODO have a database of players in the network
+    // TODO have a queue of games.
 }
