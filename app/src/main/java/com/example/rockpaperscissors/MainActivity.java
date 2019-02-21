@@ -12,6 +12,8 @@ import java.net.SocketException;
 import java.net.Socket;
 import java.io.IOException;
 
+// A comment
+
 public class MainActivity extends AppCompatActivity {
 
     Button invite;
@@ -23,7 +25,32 @@ public class MainActivity extends AppCompatActivity {
         findIDs();
         setMy_IP();
         inviteListener();
+        startListener();
+
+
     }
+
+    public void startListener() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Server s = new Server();
+                    s.addListener(new ServerListener() {
+                        @Override
+                        public void notifyMessage(String msg) {
+                        //    showIncoming(msg);
+                        }
+                    });
+                    s.listen();
+                } catch (IOException e) {
+                    Log.e(MainActivity.class.getName(), "Could not start server");
+                }
+            }
+        }).start();
+    }
+
+
 
     private void inviteListener() {
         invite.setOnClickListener(new View.OnClickListener() {
