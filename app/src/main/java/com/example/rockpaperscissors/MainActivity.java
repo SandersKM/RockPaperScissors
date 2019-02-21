@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     s.addListener(new ServerListener() {
                         @Override
                         public void notifyMessage(String msg) {
-                        //    showIncoming(msg);
+                               showIncoming(msg);
                         }
                     });
                     s.listen();
@@ -56,8 +56,8 @@ public class MainActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send("PlayRockPaprScissors", (String) other_IP.getText(),
-                        Integer.getInteger(String.valueOf(other_port.getText())));
+                send("PlayRockPaprScissors", "10.253.201.27",
+                        8888);
          //       Intent forwardIntent = new Intent(MainActivity.this, GameActivity.class);
          //       startActivity(forwardIntent);
             }
