@@ -12,10 +12,12 @@ import java.net.SocketException;
 import java.net.Socket;
 import java.io.IOException;
 
+// A comment
+
 public class MainActivity extends AppCompatActivity {
 
     Button invite;
-    TextView my_IP, other_IP, other_port;
+    TextView my_IP, other_IP, other_port, incoming;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,14 +25,41 @@ public class MainActivity extends AppCompatActivity {
         findIDs();
         setMy_IP();
         inviteListener();
+        startListener();
+
+
     }
+
+    public void startListener() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Server s = new Server();
+                    s.addListener(new ServerListener() {
+                        @Override
+                        public void notifyMessage(String msg) {
+                        //    showIncoming(msg);
+                        }
+                    });
+                    s.listen();
+                } catch (IOException e) {
+                    Log.e(MainActivity.class.getName(), "Could not start server");
+                }
+            }
+        }).start();
+    }
+
+
 
     private void inviteListener() {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent forwardIntent = new Intent(MainActivity.this, GameActivity.class);
-                startActivity(forwardIntent);
+                send("PlayRockPaprScissors", (String) other_IP.getText(),
+                        Integer.getInteger(String.valueOf(other_port.getText())));
+         //       Intent forwardIntent = new Intent(MainActivity.this, GameActivity.class);
+         //       startActivity(forwardIntent);
             }
         });
     }
@@ -41,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
         my_IP = findViewById(R.id.IP_device);
         other_IP = findViewById(R.id.IP_textbox);
         other_port = findViewById(R.id.Port_textbox);
+        incoming  = findViewById(R.id.incoming);
     }
 
     public void setMy_IP(){
@@ -50,6 +80,38 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "Threw exception when finding ip address");
         }
     }
+
+    public void send(final String message, final String host, final int port) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Socket target = new Socket(host, port);
+                    Communication.sendOver(target, message);
+                    showIncoming(Communication.receive(target));
+                    target.close();
+                } catch (final Exception e) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utilities.notifyException(MainActivity.this, e);
+                        }
+                    });
+                }
+
+            }
+        }.start();
+    }
+
+    private void showIncoming(final String msg) {
+        MainActivity.this.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                incoming.setText(msg);
+            }
+        });
+    }
+
 
     // TODO overall stats and stats by player
     // TODO have a database of players in the network
