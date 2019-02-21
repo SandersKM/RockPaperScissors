@@ -58,4 +58,14 @@ public class GameActivity extends AppCompatActivity {
             }
         });
     }
+
+    // I'm just gonna throw down some pseudocode here until the ENUMs are finalized
+    public void compareMoves() {
+        // rock-rock || paper-paper || scissors-scissors --> popup tie
+        // rock-paper || paper-scissors || scissors-rock --> popup loss
+        // rock-scissors || paper-rock || scissors-paper --> popup win
+
+        // Display the quit/play again screen? or just call playAgain()?
+        
+    }
 }
