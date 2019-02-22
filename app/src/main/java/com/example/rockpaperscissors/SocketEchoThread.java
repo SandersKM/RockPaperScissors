@@ -29,7 +29,7 @@ public class SocketEchoThread extends Thread {
             Communication.sendOver(socket, msg);
             socket.close();
             for (ServerListener listener: listeners) {
-                listener.notifyMessage(msg);
+                listener.notifyMessage(msg+"test");
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
