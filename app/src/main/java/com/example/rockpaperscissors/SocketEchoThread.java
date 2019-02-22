@@ -26,10 +26,10 @@ public class SocketEchoThread extends Thread {
     public void run() {
         try {
             String msg = Communication.receive(socket);
-            Communication.sendOver(socket, msg);
+            Communication.sendOver(socket, msg+"Sender");
             socket.close();
             for (ServerListener listener: listeners) {
-                listener.notifyMessage(msg);
+                listener.notifyMessage(msg+"Receiver");
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
