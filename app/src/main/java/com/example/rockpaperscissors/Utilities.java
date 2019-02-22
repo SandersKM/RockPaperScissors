@@ -19,7 +19,6 @@ import java.util.Enumeration;
 
 public class Utilities {
     // Adapted from: https://stackoverflow.com/questions/26097513/android-simple-alert-dialog
-    // Copied from https://github.com/gjf2a/PeerToPeerDemo/blob/master/app/src/main/java/edu/hendrix/ferrer/peertopeerdemo/Utilities.java
     public static void notifyException(Context context, Exception exc) {
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);

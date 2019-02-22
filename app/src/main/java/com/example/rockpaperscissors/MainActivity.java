@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send("PlayRockPaprScissors", "10.253.201.27",
+                send("PlayRockPaprScissors", "10.253.100.148",
                         8888);
          //       Intent forwardIntent = new Intent(MainActivity.this, GameActivity.class);
          //       startActivity(forwardIntent);
