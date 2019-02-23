@@ -9,14 +9,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:textColor="#FFF" />
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Compat.Notification.Title" />
 
     <TextView
         android:id="@+id/accepttext"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="@string/invited_you_to_play"
-        android:textColor="#FFF" />
+        android:textColor="@android:color/black" />
 
     <Button
         android:id="@+id/acceptButtonYes"

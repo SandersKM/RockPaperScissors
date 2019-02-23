@@ -27,8 +27,6 @@ public class MainActivity extends AppCompatActivity {
         setMy_IP();
         inviteListener();
         startListener();
-
-
     }
 
     public void findIDs(){
@@ -38,11 +36,11 @@ public class MainActivity extends AppCompatActivity {
         other_IP = findViewById(R.id.IP_textbox);
         other_port = findViewById(R.id.Port_textbox);
         incoming  = findViewById(R.id.incoming);
-        test = findViewById(R.id.button);
+        test = findViewById(R.id.button); // This is temporary!
         test.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setDialog();
+                setInvitation();
             }
         });
     }
@@ -124,10 +122,11 @@ public class MainActivity extends AppCompatActivity {
     //  Dialog Box Code  //
     // // // // // // // //
 
+
     // https://www.mkyong.com/android/android-custom-dialog-example/
-    private void setDialog() {
+    private void setInvitation() {
         final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.dialogue_main);
+        dialog.setContentView(R.layout.dialog_invitation);
         acceptInvitationListener(dialog);
         declineInvitationListener(dialog);
         dialog.show();
@@ -157,6 +156,35 @@ public class MainActivity extends AppCompatActivity {
         Intent forwardIntent = new Intent(MainActivity.this, GameActivity.class);
         startActivity(forwardIntent);
     }
+
+    private void setDeclined(){
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_declined);
+        acceptInvitationListener(dialog);
+        declinedOkListener(dialog);
+        dialog.show();
+    }
+
+    private void declinedOkListener(final Dialog dialog){
+        Button dialogButtonDecline = (Button) dialog.findViewById(R.id.declineButtonOK);
+        dialogButtonDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void declinedTryAgainListener(final Dialog dialog){
+        Button dialogButtonDecline = (Button) dialog.findViewById(R.id.declineButtonTryAgain);
+        dialogButtonDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // DAN: send another request
+            }
+        });
+    }
+
 
 
     // TODO overall stats and stats by player

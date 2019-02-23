@@ -8,4 +8,7 @@
     <string name="invited_you_to_play">invited you to play!</string>
     <string name="accept">Accept</string>
     <string name="decline">Decline</string>
+    <string name="rejected_your_invitation">rejected your invitation</string>
+    <string name="ok">OK</string>
+    <string name="try_again">Try Again</string>
 </resources>
