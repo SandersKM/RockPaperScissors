@@ -4,12 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-public class DialogBox_Invitation implements DialogBox{
+public class DialogBox_Declined implements DialogBox{
 
     DialogBoxView dialogBoxView;
     Context context;
 
-    public DialogBox_Invitation(Context context, String IP){
+    public DialogBox_Declined(Context context, String IP){
         this.context = context;
         this.dialogBoxView = new DialogBoxView(context);
         setText(IP);
@@ -20,9 +20,9 @@ public class DialogBox_Invitation implements DialogBox{
     @Override
     public void setText(String IP) {
         dialogBoxView.setIpText(IP);
-        dialogBoxView.setMessageText("has invited you to play Rock Paper Scissors!");
-        dialogBoxView.setNoButtonText("DECLINE");
-        dialogBoxView.setYesButtonText("ACCEPT");
+        dialogBoxView.setMessageText("has declined your invitation.");
+        dialogBoxView.setNoButtonText("Try Again");
+        dialogBoxView.setYesButtonText("OK");
     }
 
     @Override
@@ -31,19 +31,15 @@ public class DialogBox_Invitation implements DialogBox{
             @Override
             public void onClick(View v) {
                 dialogBoxView.getDialog().dismiss();
+                new DialogBox_Waiting(context, "IP_address");
+                // DAN: send another request
             }
         });
         dialogBoxView.getYes().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogBoxView.getDialog().dismiss();
-                toGameActivity();
             }
         });
-    }
-
-    private void toGameActivity(){
-        Intent forwardIntent = new Intent(context, GameActivity.class);
-        context.startActivity(forwardIntent);
     }
 }
