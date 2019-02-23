@@ -2,6 +2,7 @@ package com.example.rockpaperscissors;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -11,10 +12,14 @@ public class DialogBoxView {
     TextView IP, message;
     Button yes, no;
 
-    private DialogBoxView(Context context){
+    public DialogBoxView(Context context){
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog);
         getIDs();
+    }
+
+    public void showDialog(){
+        dialog.show();
     }
 
     private void getIDs() {
@@ -40,4 +45,15 @@ public class DialogBoxView {
         no.setText(txt);
     }
 
+    public Dialog getDialog(){
+        return dialog;
+    }
+
+    public Button getNo() {
+        return no;
+    }
+
+    public Button getYes() {
+        return yes;
+    }
 }

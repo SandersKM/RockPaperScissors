@@ -125,31 +125,7 @@ public class MainActivity extends AppCompatActivity {
 
     // https://www.mkyong.com/android/android-custom-dialog-example/
     private void setInvitation() {
-        final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.dialog_invitation);
-        acceptInvitationListener(dialog);
-        declineInvitationListener(dialog);
-        dialog.show();
-    }
-
-    private void acceptInvitationListener(Dialog dialog){
-        Button dialogButtonAccept = (Button) dialog.findViewById(R.id.acceptButtonYes);
-        dialogButtonAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toGameActivity();
-            }
-        });
-    }
-
-    private void declineInvitationListener(final Dialog dialog){
-        Button dialogButtonDecline = (Button) dialog.findViewById(R.id.acceptButtonNo);
-        dialogButtonDecline.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        DialogBox_Invitation dialogView = new DialogBox_Invitation(context, "Kate");
     }
 
     private void toGameActivity(){
@@ -160,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
     private void setDeclined(){
         final Dialog dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog_declined);
-        acceptInvitationListener(dialog);
+        
         declinedOkListener(dialog);
         dialog.show();
     }
