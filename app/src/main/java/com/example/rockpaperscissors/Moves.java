@@ -2,7 +2,7 @@ package com.example.rockpaperscissors;
 
 public class Moves {
 
-    public enum Move {
+    /*public enum Move {
         static {
             Rock = new Move("rock");
             Paper = new Move("paper");
@@ -21,5 +21,5 @@ public class Moves {
             Lose = new Result("lose");
             Tie = new Result("tie");
         }
-    }
+    }*/
 }

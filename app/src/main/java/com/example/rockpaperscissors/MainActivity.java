@@ -1,6 +1,7 @@
 package com.example.rockpaperscissors;
 
-import android.content.Intent;
+import android.app.Dialog;
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -16,8 +17,9 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
+    final Context context = this;
     Button invite;
-    TextView my_IP, other_IP, other_port, incoming;
+    TextView my_IP, other_IP, other_port, incoming, test;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +30,20 @@ public class MainActivity extends AppCompatActivity {
         startListener();
 
 
+    }
+
+    private void setDialog() {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialogue_main);
+        Button dialogButtonAccept = (Button) dialog.findViewById(R.id.acceptButtonYes);
+        Button dialogButtonDecline = (Button) dialog.findViewById(R.id.acceptButtonNo);
+        dialogButtonAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
     }
 
     public void startListener() {
@@ -71,6 +87,13 @@ public class MainActivity extends AppCompatActivity {
         other_IP = findViewById(R.id.IP_textbox);
         other_port = findViewById(R.id.Port_textbox);
         incoming  = findViewById(R.id.incoming);
+        test = findViewById(R.id.button);
+        test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setDialog();
+            }
+        });
     }
 
     public void setMy_IP(){
