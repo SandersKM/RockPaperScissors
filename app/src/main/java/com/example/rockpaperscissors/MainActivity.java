@@ -2,6 +2,7 @@ package com.example.rockpaperscissors;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +13,6 @@ import android.widget.TextView;
 import java.net.SocketException;
 import java.net.Socket;
 import java.io.IOException;
-
-// A comment
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,54 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void setDialog() {
-        final Dialog dialog = new Dialog(context);
-        dialog.setContentView(R.layout.dialogue_main);
-        Button dialogButtonAccept = (Button) dialog.findViewById(R.id.acceptButtonYes);
-        Button dialogButtonDecline = (Button) dialog.findViewById(R.id.acceptButtonNo);
-        dialogButtonAccept.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-    }
-
-    public void startListener() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Server s = new Server();
-                    s.addListener(new ServerListener() {
-                        @Override
-                        public void notifyMessage(String msg) {
-                               showIncoming(msg);
-                        }
-                    });
-                    s.listen();
-                } catch (IOException e) {
-                    Log.e(MainActivity.class.getName(), "Could not start server");
-                }
-            }
-        }).start();
-    }
-
-
-
-    private void inviteListener() {
-        invite.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                send("PlayRockPaperScissors", other_IP.getText().toString(),
-                        8888);
-         //       Intent forwardIntent = new Intent(MainActivity.this, GameActivity.class);
-         //       startActivity(forwardIntent);
-            }
-        });
-    }
-
     public void findIDs(){
         setContentView(R.layout.activity_main);
         invite = findViewById(R.id.request_button);
@@ -92,6 +43,40 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setDialog();
+            }
+        });
+    }
+
+    // // // // // // // //
+    //  Client-Server    //
+    // // // // // // // //
+
+    public void startListener() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Server s = new Server();
+                    s.addListener(new ServerListener() {
+                        @Override
+                        public void notifyMessage(String msg) {
+                            showIncoming(msg);
+                        }
+                    });
+                    s.listen();
+                } catch (IOException e) {
+                    Log.e(MainActivity.class.getName(), "Could not start server");
+                }
+            }
+        }).start();
+    }
+
+    private void inviteListener() {
+        invite.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                send("PlayRockPaperScissors", other_IP.getText().toString(),
+                        8888);
             }
         });
     }
@@ -133,6 +118,44 @@ public class MainActivity extends AppCompatActivity {
                 incoming.setText(msg);
             }
         });
+    }
+
+    // // // // // // // //
+    //  Dialog Box Code  //
+    // // // // // // // //
+
+    // https://www.mkyong.com/android/android-custom-dialog-example/
+    private void setDialog() {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialogue_main);
+        acceptInvitationListener(dialog);
+        declineInvitationListener(dialog);
+        dialog.show();
+    }
+
+    private void acceptInvitationListener(Dialog dialog){
+        Button dialogButtonAccept = (Button) dialog.findViewById(R.id.acceptButtonYes);
+        dialogButtonAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toGameActivity();
+            }
+        });
+    }
+
+    private void declineInvitationListener(final Dialog dialog){
+        Button dialogButtonDecline = (Button) dialog.findViewById(R.id.acceptButtonNo);
+        dialogButtonDecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void toGameActivity(){
+        Intent forwardIntent = new Intent(MainActivity.this, GameActivity.class);
+        startActivity(forwardIntent);
     }
 
 
