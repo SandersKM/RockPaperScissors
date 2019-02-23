@@ -1,5 +1,6 @@
 package com.example.rockpaperscissors;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,7 +8,8 @@ import android.view.View;
 import android.widget.Button;
 
 public class GameActivity extends AppCompatActivity {
-
+    
+    final Context context = this;
     Button rock, paper, scissors;
 
     @Override
@@ -30,22 +32,38 @@ public class GameActivity extends AppCompatActivity {
         scissorsListener();
     }
 
+    private void showResult(Results result) {
+        DialogBox_GameResult resultDialog =  new DialogBox_GameResult(this.context, "IP");
+        resultDialog.setResult(result);
+        resultDialog.showResults();
+    }
+
+
+    private Results getResult() {
+        // TODO find the result
+        Results result = Results.LOSE;
+        return result;
+    }
+
+
     // Depending on what needs to be sent, we could make these into one generic method,
     // but I figured we should keep it "simpler" for now by having separate methods
     public void rockListener(){
         rock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showResult(getResult());
             }
         });
     }
+
+
 
     public void paperListener(){
         paper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showResult(getResult());
             }
         });
     }
@@ -54,7 +72,7 @@ public class GameActivity extends AppCompatActivity {
         scissors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                showResult(getResult());
             }
         });
     }

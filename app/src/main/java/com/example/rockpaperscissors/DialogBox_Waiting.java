@@ -19,7 +19,7 @@ public class DialogBox_Waiting implements DialogBox{
     @Override
     public void setText(String IP) {
         dialogBoxView.setIpText(IP);
-        dialogBoxView.setMessageText("has recieved your invitation. Waiting for response.");
+        dialogBoxView.setMessageText("Waiting for response.");
         dialogBoxView.setNoButtonText("QUIT");
         dialogBoxView.getYes().setVisibility(View.GONE);
     }
