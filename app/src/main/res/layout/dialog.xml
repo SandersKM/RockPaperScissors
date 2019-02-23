@@ -1,0 +1,39 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+
+    <TextView
+        android:id="@+id/dialog_IP"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textAlignment="center"
+        android:textAppearance="@style/TextAppearance.Compat.Notification.Title" />
+
+    <TextView
+        android:id="@+id/dialog_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:layout_below="@id/dialog_IP" />
+
+    <Button
+        android:id="@+id/dialog_buttonYes"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_text"
+        android:layout_toEndOf="@id/dialog_buttonNo"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:text="" />
+
+    <Button
+        android:id="@+id/dialog_buttonNo"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/dialog_text"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:text="" />
+
+</RelativeLayout>
