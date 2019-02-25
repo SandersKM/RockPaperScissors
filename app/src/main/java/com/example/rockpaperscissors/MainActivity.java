@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sendGameInvite("PlayRockPaperScissors", other_IP.getText().toString(),
                         8888);
-              //  setWaitingForResponse();
+                setWaitingForResponse();
             }
         });
     }
