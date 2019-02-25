@@ -65,21 +65,23 @@ public class MainActivity extends AppCompatActivity {
                     s.addListener(new ServerListener() {
                         @Override
                         public void notifyMessage(String msg) {
-                        if (msg.equals("PlayRockPaperScissors\n")) {
-                            showIncoming("received invite");
-                            MainActivity.this.runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    setInvitation();
-                                }
-                            });
-                                 }
+                            if (msg.equals("PlayRockPaperScissors\n")) {
+                                showIncoming("received invite");
+                                MainActivity.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        setInvitation();
+                                    }
+                                });}
                         }
+                        @Override
+                        public String getIP(Socket socket) {
+                            return socket.getInetAddress().toString();
+                        }
+
+
+
                     });
-
-
-
-
                     s.listen();
                 } catch (IOException e) {
                     Log.e(MainActivity.class.getName(), "Could not start server");
