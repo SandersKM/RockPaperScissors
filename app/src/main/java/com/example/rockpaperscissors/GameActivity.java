@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.net.Socket;
+
 public class GameActivity extends AppCompatActivity {
     
     final Context context = this;
@@ -76,6 +78,29 @@ public class GameActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void send(final String message, final String host, final int port) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    Socket target = new Socket(host, port);
+                    Communication.sendOver(target, message);
+                    target.close();
+                } catch (final Exception e) {
+                 /*   MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utilities.notifyException(MainActivity.this, e);
+                        }
+                    });*/
+                }
+
+            }
+        }.start();
+    }
+
+
 
     // I'm just gonna throw down some pseudocode here until the ENUMs are finalized
     // I think because we are running this locally, then keeping the comparisons between

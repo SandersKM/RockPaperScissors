@@ -1,7 +1,8 @@
 package com.example.rockpaperscissors;
 
 public class Moves {
-
+    //just adding something inhere to start work on send methods. Feel free to replace this
+    enum Move {Rock, Paper, Scissor;}
     /*public enum Move {
         static {
             Rock = new Move("rock");
