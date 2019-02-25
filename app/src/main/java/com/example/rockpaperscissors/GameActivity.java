@@ -54,6 +54,7 @@ public class GameActivity extends AppCompatActivity {
         rock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+              //  send(Move.Rock.toString(),,8888);
                 showResult(getResult());
             }
         });
@@ -65,6 +66,7 @@ public class GameActivity extends AppCompatActivity {
         paper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+           //     send(Move.Paper.toString(),,8888);
                 showResult(getResult());
             }
         });
@@ -74,6 +76,7 @@ public class GameActivity extends AppCompatActivity {
         scissors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+            //    send(Move.Scissor.toString(),,8888);
                 showResult(getResult());
             }
         });

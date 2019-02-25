@@ -65,9 +65,21 @@ public class MainActivity extends AppCompatActivity {
                     s.addListener(new ServerListener() {
                         @Override
                         public void notifyMessage(String msg) {
-                            showIncoming(msg);
+                        if (msg.equals("PlayRockPaperScissors\n")) {
+                            showIncoming("received invite");
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    setInvitation();
+                                }
+                            });
+                                 }
                         }
                     });
+
+
+
+
                     s.listen();
                 } catch (IOException e) {
                     Log.e(MainActivity.class.getName(), "Could not start server");
@@ -80,21 +92,22 @@ public class MainActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                send("PlayRockPaperScissors", other_IP.getText().toString(),
+                sendGameInvite("PlayRockPaperScissors", other_IP.getText().toString(),
                         8888);
-                setWaitingForResponse();
+              //  setWaitingForResponse();
             }
         });
     }
 
-    public void send(final String message, final String host, final int port) {
+    public void sendGameInvite(final String message, final String host, final int port) {
         new Thread() {
             @Override
             public void run() {
+
                 try {
                     Socket target = new Socket(host, port);
                     Communication.sendOver(target, message);
-                    showIncoming(Communication.receive(target));
+                //    showIncoming(Communication.receive(target));
                     target.close();
                 } catch (final Exception e) {
                     MainActivity.this.runOnUiThread(new Runnable() {
@@ -125,15 +138,15 @@ public class MainActivity extends AppCompatActivity {
 
     // https://www.mkyong.com/android/android-custom-dialog-example/
     private void setInvitation() {
-        new DialogBox_Invitation(context, "IP_address");
+        new DialogBox_Invitation(context, "test");
     }
 
     private void setWaitingForResponse(){
-        new DialogBox_Waiting(context, "THE_OTHER_IP");
+        new DialogBox_Waiting(context, other_IP.getText().toString());
     }
 
     private void setDeclined(){
-        new DialogBox_Declined(context, "THE_OTHER_IP");
+        new DialogBox_Declined(context, other_IP.getText().toString());
     }
 
 

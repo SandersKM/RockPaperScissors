@@ -14,7 +14,7 @@ public class DialogBox_Invitation implements DialogBox{
         this.dialogBoxView = new DialogBoxView(context);
         setText(IP);
         dialogBoxView.showDialog();
-        setButtonListeners();
+        setButtonListeners() ;
     }
 
     @Override
