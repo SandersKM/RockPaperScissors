@@ -10,7 +10,7 @@ import android.widget.Button;
 import java.net.Socket;
 
 public class GameActivity extends AppCompatActivity {
-    
+
     final Context context = this;
     Button rock, paper, scissors;
 

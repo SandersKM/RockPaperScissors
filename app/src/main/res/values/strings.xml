@@ -11,4 +11,8 @@
     <string name="rejected_your_invitation">rejected your invitation</string>
     <string name="ok">OK</string>
     <string name="try_again">Try Again</string>
+    <string name="sonetext" />
+    <string name="scissorstext" />
+    <string name="papertext" />
+    <string name="todo">TODO</string>
 </resources>
