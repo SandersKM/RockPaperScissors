@@ -76,12 +76,34 @@ public class MainActivity extends AppCompatActivity {
                         }
                         @Override
                         public String getIP(Socket socket) {
-                            return socket.getInetAddress().toString();
+                            return socket.getInetAddress().toString().substring(1);
                         }
-
-
-
                     });
+                    s.addListener(new ServerListener() {
+                        @Override
+                        public void notifyMessage(String msg) {
+                            if (msg.equals("yes\n")) {
+                            toGameActivity();
+                            }
+                        }
+                        @Override
+                        public String getIP(Socket socket) {
+                            return socket.getInetAddress().toString().substring(1);
+                        }
+                    });
+                    s.addListener(new ServerListener() {
+                        @Override
+                        public void notifyMessage(String msg) {
+                            if (msg.equals("no\n")) {
+                                showIncoming("Invitation declined");
+                            }
+                        }
+                        @Override
+                        public String getIP(Socket socket) {
+                            return socket.getInetAddress().toString().substring(1);
+                        }
+                    });
+
                     s.listen();
                 } catch (IOException e) {
                     Log.e(MainActivity.class.getName(), "Could not start server");
@@ -140,7 +162,7 @@ public class MainActivity extends AppCompatActivity {
 
     // https://www.mkyong.com/android/android-custom-dialog-example/
     private void setInvitation() {
-        new DialogBox_Invitation(context, "test");
+        new DialogBox_Invitation(context, SocketEchoThread.opponentIP);
     }
 
     private void setWaitingForResponse(){
@@ -151,6 +173,10 @@ public class MainActivity extends AppCompatActivity {
         new DialogBox_Declined(context, other_IP.getText().toString());
     }
 
+    private void toGameActivity(){
+        Intent forwardIntent = new Intent(context, GameActivity.class);
+        context.startActivity(forwardIntent);
+    }
 
 
 

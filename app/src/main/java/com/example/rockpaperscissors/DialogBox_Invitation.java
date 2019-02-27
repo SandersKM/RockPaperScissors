@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import java.net.Socket;
+
 public class DialogBox_Invitation implements DialogBox{
 
     DialogBoxView dialogBoxView;
@@ -30,12 +32,14 @@ public class DialogBox_Invitation implements DialogBox{
         dialogBoxView.getNo().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendResponse("no",SocketEchoThread.opponentIP, 8888);
                 dialogBoxView.getDialog().dismiss();
             }
         });
         dialogBoxView.getYes().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sendResponse("yes",SocketEchoThread.opponentIP, 8888);
                 dialogBoxView.getDialog().dismiss();
                 toGameActivity();
             }
@@ -45,5 +49,27 @@ public class DialogBox_Invitation implements DialogBox{
     private void toGameActivity(){
         Intent forwardIntent = new Intent(context, GameActivity.class);
         context.startActivity(forwardIntent);
+    }
+
+    public void sendResponse(final String message, final String host, final int port) {
+        new Thread() {
+            @Override
+            public void run() {
+
+                try {
+                    Socket target = new Socket(host, port);
+                    Communication.sendOver(target, message);
+                    target.close();
+                } catch (final Exception e) {
+                    /*MainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utilities.notifyException(MainActivity.this, e);
+                        }
+                    });*/
+                }
+
+            }
+        }.start();
     }
 }
