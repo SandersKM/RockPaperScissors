@@ -19,7 +19,7 @@ public class MoveData {
 
     @Override
     public String toString(){
-        return opponentIP + "::" + move.toString();
+        return opponentIP + "&" + move.toString();
     }
 
 }
