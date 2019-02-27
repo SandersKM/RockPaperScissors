@@ -31,7 +31,7 @@ public class SocketEchoThread extends Thread {
             socket.close();
             for (ServerListener listener: listeners) {
                 listener.notifyMessage(msg);
-                opponentIP = listener.getIP(socket);
+                //opponentIP = listener.getIP(socket);
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
