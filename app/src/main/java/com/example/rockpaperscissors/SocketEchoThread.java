@@ -27,7 +27,7 @@ public class SocketEchoThread extends Thread {
     public void run() {
         try {
             String msg = Communication.receive(socket);
-            //Communication.sendOver(socket, msg+"Sender");
+            Communication.sendOver(socket, msg+"Sender");
             socket.close();
             for (ServerListener listener: listeners) {
                 listener.notifyMessage(msg);
