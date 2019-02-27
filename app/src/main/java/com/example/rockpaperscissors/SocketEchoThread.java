@@ -28,11 +28,11 @@ public class SocketEchoThread extends Thread {
         try {
             String msg = Communication.receive(socket);
             Communication.sendOver(socket, msg+"Sender");
-            socket.close();
             for (ServerListener listener: listeners) {
                 listener.notifyMessage(msg);
-                //opponentIP = listener.getIP(socket);
+                opponentIP = listener.getIP(socket);
             }
+            socket.close();
         } catch (IOException ioe) {
             ioe.printStackTrace();
         }

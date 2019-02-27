@@ -66,16 +66,18 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void notifyMessage(String msg) {
                             if (msg.equals("PlayRockPaperScissors\n")) {
-                                showIncoming("received invite");
+                                Log.e("ERROR", "Recieved Invite");
                                 MainActivity.this.runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        showIncoming("received invite");
                                         setInvitation();
                                     }
                                 });}
                         }
                         @Override
                         public String getIP(Socket socket) {
+                            Log.e("ERROR",socket.getInetAddress().toString() );
                             return socket.getInetAddress().toString().substring(1);
                         }
                     });
