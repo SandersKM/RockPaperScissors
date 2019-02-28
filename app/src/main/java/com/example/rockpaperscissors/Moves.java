@@ -1,28 +1,45 @@
 package com.example.rockpaperscissors;
 
 //just adding something inhere to start work on send methods. Feel free to replace this
-enum Move {Rock, Paper, Scissor;}
+enum Move {Rock, Paper, Scissors, Quit;}
 
 public class Moves {
 
-    /*public enum Move {
-        static {
-            Rock = new Move("rock");
-            Paper = new Move("paper");
-            Scissors = new Move("scissors");
-            Move[] arrayOfMoves = new Move[3];
-            arrayOfMoves[0] = Rock;
-            arrayOfMoves[1] = Paper;
-            arrayOfMoves[2] = Scissors
-            ENUM$VALUES = arrayOfMoves;
-        }
-    };
 
-    public enum Result{
-        static {
-            Win = new Result("win");
-            Lose = new Result("lose");
-            Tie = new Result("tie");
+    public void compareMoves(Move myMove, Move otherMove) {
+
+        //you quit
+        if (myMove.equals(Move.Quit)) {
+            System.out.println("You LOSE because you're a quitter!");
         }
-    }*/
+
+        //popup ties
+        if ((myMove.equals(Move.Rock) && otherMove.equals(Move.Rock))
+            || (myMove.equals(Move.Paper) && otherMove.equals(Move.Paper))
+            || (myMove.equals(Move.Scissors) && otherMove.equals(Move.Scissors))){
+
+                // Here is where the dialog box call goes
+                System.out.println("You TIED because " + otherMove.toString() + " is the same as " + myMove.toString() + "!");
+            }
+
+        //popup wins
+        if ((myMove.equals(Move.Rock) && otherMove.equals(Move.Scissors))
+            || (myMove.equals(Move.Paper) && otherMove.equals(Move.Rock))
+            || (myMove.equals(Move.Scissors) && otherMove.equals(Move.Paper))){
+
+                // Here is where the dialog box call goes
+                System.out.println("You WIN because " + myMove.toString() + " beats" + otherMove.toString() + "!");
+            }
+
+        //popup losses
+        if ((myMove.equals(Move.Rock) && otherMove.equals(Move.Paper))
+            || (myMove.equals(Move.Paper) && otherMove.equals(Move.Scissors))
+            || (myMove.equals(Move.Scissors) && otherMove.equals(Move.Rock))){
+
+                // Here is where the dialog box call goes
+                System.out.println("You LOSE because " + otherMove.toString() + " beats" + myMove.toString() + "!");
+            }
+        // Display the quit/play again screen? or just call playAgain()?
+
+    }
 }
