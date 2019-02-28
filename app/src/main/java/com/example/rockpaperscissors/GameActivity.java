@@ -28,6 +28,30 @@ public class GameActivity extends AppCompatActivity {
         scissors = findViewById(R.id.scissors_button);
     }
 
+
+
+    // These next 3 boolean methods might be able to be moved into a static Game class to make our code cleaner
+    public boolean moveSent() {
+        // if a move is sent
+        // I do not know how to check for/catch when we send a move
+        // Please fix if you do
+        // or alternatively tell me(Rader) why I'm dumb
+        return true;
+    }
+
+    public boolean moveReceived() {
+        // see moveSent above for the same situation :)
+        return true;
+    }
+
+    public boolean turnComplete() {
+        if (moveSent() && moveReceived()) {
+            return true;
+        }
+        return false;
+    }
+
+
     public void moveListener(){
         rockListener();
         paperListener();
