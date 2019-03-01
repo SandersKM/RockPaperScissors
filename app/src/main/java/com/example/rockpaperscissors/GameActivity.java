@@ -2,10 +2,12 @@ package com.example.rockpaperscissors;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.net.Socket;
 
@@ -13,12 +15,15 @@ public class GameActivity extends AppCompatActivity {
 
     final Context context = this;
     Button rock, paper, scissors;
+    private TextView timer;
+    CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findIDs();
         moveListener();
+        countdown(); // How will we restart this with playagain? reinitialize this screen?
     }
 
     public void findIDs(){
@@ -26,6 +31,7 @@ public class GameActivity extends AppCompatActivity {
         rock = findViewById(R.id.stone_button);
         paper = findViewById(R.id.paper_button);
         scissors = findViewById(R.id.scissors_button);
+        timer = findViewById(R.id.timerView);
     }
 
 
@@ -78,6 +84,7 @@ public class GameActivity extends AppCompatActivity {
         rock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                countDownTimer.cancel();
                 Communication.send(Move.Rock.toString(),Server.getOpponentIP(),8888);
                 showResult(getResult());
             }
@@ -90,6 +97,7 @@ public class GameActivity extends AppCompatActivity {
         paper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                countDownTimer.cancel();
                 Communication.send(Move.Paper.toString(),Server.getOpponentIP(),8888);
                 showResult(getResult());
             }
@@ -100,10 +108,25 @@ public class GameActivity extends AppCompatActivity {
         scissors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                countDownTimer.cancel();
                 Communication.send(Move.Scissors.toString(),Server.getOpponentIP(),8888);
                 showResult(getResult());
             }
         });
+    }
+
+    public void countdown(){
+        countDownTimer = new CountDownTimer(10000, 1000) {
+
+            public void onTick(long millisUntilFinished) {
+                timer.setText("Countdown:  " + millisUntilFinished / 1000 );
+            }
+
+            public void onFinish() {
+                showResult(Results.TIMEOUT_THIS);
+                // Notify other player that you lose
+            }
+        }.start();
     }
 
 }

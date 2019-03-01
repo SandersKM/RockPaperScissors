@@ -12,7 +12,6 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="30dp"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="5dp"
         android:layout_x="118dp"
@@ -22,7 +21,7 @@
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/scissors_button"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/timerView" />
 
     <Button
         android:id="@+id/scissors_button"
@@ -73,14 +72,13 @@
         android:id="@+id/imageView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
         android:layout_marginEnd="9dp"
         android:contentDescription="@string/todo"
         android:rotation="90"
         app:layout_constraintBottom_toTopOf="@+id/imageView2"
         app:layout_constraintEnd_toStartOf="@+id/stone_button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/timerView"
         app:srcCompat="@drawable/ic_subdirectory_arrow_right_black_24dp" />
 
     <ImageView
@@ -96,6 +94,20 @@
         app:layout_constraintStart_toEndOf="@+id/scissors_button"
         app:layout_constraintTop_toBottomOf="@+id/stone_button"
         app:srcCompat="@drawable/ic_arrow_upward_black_24dp" />
+
+    <TextView
+        android:id="@+id/timerView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text=""
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/stone_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="spread_inside" />
 
 
 </android.support.constraint.ConstraintLayout>
