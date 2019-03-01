@@ -14,6 +14,29 @@ import java.net.Socket;
 
 public class Communication {
 
+    public static void send(final String message, final String host, final int port) {
+        new Thread() {
+            @Override
+            public void run() {
+
+                try {
+                    Socket target = new Socket(host, port);
+                    sendOver(target, message);
+                    target.close();
+                } catch (final Exception e) {
+                    /*MainActivity.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utilities.notifyException(MainActivity.this, e);
+                        }
+                    });*/
+                }
+
+            }
+        }.start();
+    }
+
+
     public static void sendOver(Socket target, String message) throws IOException {
         PrintWriter sockout = new PrintWriter(target.getOutputStream());
         if (!message.endsWith("\n")) {

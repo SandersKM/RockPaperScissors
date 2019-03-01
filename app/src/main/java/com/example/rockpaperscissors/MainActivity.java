@@ -1,6 +1,5 @@
 package com.example.rockpaperscissors;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +18,7 @@ public class MainActivity extends AppCompatActivity {
     final Context context = this;
     Button invite;
     TextView my_IP, other_IP, other_port, incoming, test;
+    ServerListener gameInvite, acceptInvite, declineInvite, incomingMove;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
         findIDs();
         setMy_IP();
         inviteListener();
-        startListener();
+        initializeServerListeners();
+        startListeners();
     }
 
     public void findIDs(){
@@ -44,6 +45,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public String getOther_IP() {
+        return other_IP.toString();
+    }
+
     public void setMy_IP(){
         try {
             my_IP.setText(Utilities.getLocalIpAddress());
@@ -56,56 +61,16 @@ public class MainActivity extends AppCompatActivity {
     //  Client-Server    //
     // // // // // // // //
 
-    public void startListener() {
+    public void startListeners() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     Server s = new Server();
-                    s.addListener(new ServerListener() {
-                        @Override
-                        public void notifyMessage(String msg) {
-                            if (msg.equals("PlayRockPaperScissors\n")) {
-                                Log.e("ERROR", "Recieved Invite");
-                                MainActivity.this.runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        showIncoming("received invite");
-                                        setInvitation();
-                                    }
-                                });}
-                        }
-                        @Override
-                        public String getIP(Socket socket) {
-                            Log.e("ERROR",socket.getInetAddress().toString() );
-                            return socket.getInetAddress().toString().substring(1);
-                        }
-                    });
-                    s.addListener(new ServerListener() {
-                        @Override
-                        public void notifyMessage(String msg) {
-                            if (msg.equals("yes\n")) {
-                            toGameActivity();
-                            }
-                        }
-                        @Override
-                        public String getIP(Socket socket) {
-                            return socket.getInetAddress().toString().substring(1);
-                        }
-                    });
-                    s.addListener(new ServerListener() {
-                        @Override
-                        public void notifyMessage(String msg) {
-                            if (msg.equals("no\n")) {
-                                showIncoming("Invitation declined");
-                            }
-                        }
-                        @Override
-                        public String getIP(Socket socket) {
-                            return socket.getInetAddress().toString().substring(1);
-                        }
-                    });
-
+                    s.addListener(gameInvite);
+                    s.addListener(acceptInvite);
+                    s.addListener(declineInvite);
+                    s.addListener(incomingMove);
                     s.listen();
                 } catch (IOException e) {
                     Log.e(MainActivity.class.getName(), "Could not start server");
@@ -118,35 +83,13 @@ public class MainActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sendGameInvite("PlayRockPaperScissors", other_IP.getText().toString(),
+                Communication.send("PlayRockPaperScissors", other_IP.getText().toString(),
                         8888);
                 setWaitingForResponse();
             }
         });
     }
 
-    public void sendGameInvite(final String message, final String host, final int port) {
-        new Thread() {
-            @Override
-            public void run() {
-
-                try {
-                    Socket target = new Socket(host, port);
-                    Communication.sendOver(target, message);
-                //    showIncoming(Communication.receive(target));
-                    target.close();
-                } catch (final Exception e) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utilities.notifyException(MainActivity.this, e);
-                        }
-                    });
-                }
-
-            }
-        }.start();
-    }
 
     private void showIncoming(final String msg) {
         MainActivity.this.runOnUiThread(new Runnable() {
@@ -164,7 +107,7 @@ public class MainActivity extends AppCompatActivity {
 
     // https://www.mkyong.com/android/android-custom-dialog-example/
     private void setInvitation() {
-        new DialogBox_Invitation(context, SocketEchoThread.opponentIP);
+        new DialogBox_Invitation(context, Server.getOpponentIP());
     }
 
     private void setWaitingForResponse(){
@@ -180,7 +123,64 @@ public class MainActivity extends AppCompatActivity {
         context.startActivity(forwardIntent);
     }
 
+    private void initializeServerListeners() {
+        gameInvite = new ServerListener() {
+            @Override
+            public void notifyMessage(String msg) {
+                if (msg.equals("PlayRockPaperScissors\n")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setInvitation();
+                        }
+                    });
+                }
+            }
+        };
 
+        acceptInvite = new ServerListener() {
+            @Override
+            public void notifyMessage(String msg) {
+                if (msg.equals("yes\n")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            toGameActivity();
+                        }
+                    });
+                }
+            }
+        };
+
+        declineInvite = new ServerListener() {
+            @Override
+            public void notifyMessage(String msg) {
+                if (msg.equals("no")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setDeclined();
+                        }
+                    });
+                }
+            }
+        };
+
+        incomingMove = new ServerListener() {
+            @Override
+            public void notifyMessage(String msg) {
+                if (msg.equals("notingtoseehere")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            //setDeclined();
+                        }
+                    });
+                }
+            }
+        };
+
+    }
 
     // TODO overall stats and stats by player
     // TODO have a database of players in the network

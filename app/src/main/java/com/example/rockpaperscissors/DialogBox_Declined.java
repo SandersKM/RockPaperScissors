@@ -32,7 +32,8 @@ public class DialogBox_Declined implements DialogBox{
             public void onClick(View v) {
                 dialogBoxView.getDialog().dismiss();
                 new DialogBox_Waiting(context, "IP_address");
-                // DAN: send another request
+                //Not sure about best way to get IP from textview in mainactivity here (Dan)
+                //Communication.send("PlayRockPaperScissors", MainActivity.other_IP.getText().toString(), 8888);
             }
         });
         dialogBoxView.getYes().setOnClickListener(new View.OnClickListener() {

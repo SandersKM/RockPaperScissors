@@ -16,12 +16,13 @@ import java.util.ArrayList;
 public class Server {
 
     public static final int APP_PORT = 8888;
-
+    private static String opponentIP;
     private ServerSocket accepter;
     private ArrayList<ServerListener> listeners = new ArrayList<>();
 
     public Server() throws IOException {
         accepter = new ServerSocket(APP_PORT);
+        opponentIP ="";
     }
 
     public void addListener(ServerListener listener) {
@@ -36,9 +37,17 @@ public class Server {
 
     public SocketEchoThread listenOnce() throws IOException {
         Socket s = accepter.accept();
+        opponentIP =  s.getInetAddress().toString().substring(1);
         SocketEchoThread echoer = new SocketEchoThread(s, listeners);
         return echoer;
     }
 
+    public static String getOpponentIP (){
+        return opponentIP;
+    }
+
+    public static void setOpponentIP (String ip) {
+        opponentIP = ip;
+    }
 
 }

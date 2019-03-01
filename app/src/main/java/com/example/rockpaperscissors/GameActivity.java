@@ -78,7 +78,7 @@ public class GameActivity extends AppCompatActivity {
         rock.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //  send(Move.Rock.toString(),,8888);
+                Communication.send(Move.Rock.toString(),Server.getOpponentIP(),8888);
                 showResult(getResult());
             }
         });
@@ -90,7 +90,7 @@ public class GameActivity extends AppCompatActivity {
         paper.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-           //     send(Move.Paper.toString(),,8888);
+                Communication.send(Move.Paper.toString(),Server.getOpponentIP(),8888);
                 showResult(getResult());
             }
         });
@@ -100,33 +100,10 @@ public class GameActivity extends AppCompatActivity {
         scissors.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            //    send(Move.Scissor.toString(),,8888);
+                Communication.send(Move.Scissors.toString(),Server.getOpponentIP(),8888);
                 showResult(getResult());
             }
         });
     }
-
-    public void send(final String message, final String host, final int port) {
-        new Thread() {
-            @Override
-            public void run() {
-                try {
-                    Socket target = new Socket(host, port);
-                    Communication.sendOver(target, message);
-                    target.close();
-                } catch (final Exception e) {
-                 /*   MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utilities.notifyException(MainActivity.this, e);
-                        }
-                    });*/
-                }
-
-            }
-        }.start();
-    }
-
-
 
 }
