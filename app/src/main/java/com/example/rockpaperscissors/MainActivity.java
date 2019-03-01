@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                     s.addListener(gameInvite);
                     s.addListener(acceptInvite);
                     s.addListener(declineInvite);
-                    s.addListener(incomingMove);
+                    //s.addListener(incomingMove);
                     s.listen();
                 } catch (IOException e) {
                     Log.e(MainActivity.class.getName(), "Could not start server");
