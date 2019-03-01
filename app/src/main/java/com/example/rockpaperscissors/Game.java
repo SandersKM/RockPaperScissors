@@ -6,6 +6,7 @@ public class Game {
     static boolean moveReceived = false;
     static boolean turnCompleted = false;
 
+
     public static Move getMyMove() {return myMove;}
     public static void setMyMove (Move m) {myMove = m;}
 

@@ -83,8 +83,7 @@ public class MainActivity extends AppCompatActivity {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Communication.send("PlayRockPaperScissors", other_IP.getText().toString(),
-                        8888);
+                Communication.send("PlayRockPaperScissors", other_IP.getText().toString(), 8888);
                 setWaitingForResponse();
             }
         });
@@ -155,7 +154,8 @@ public class MainActivity extends AppCompatActivity {
         declineInvite = new ServerListener() {
             @Override
             public void notifyMessage(String msg) {
-                if (msg.equals("no")) {
+                if (msg.equals("no\n")) {
+
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -169,18 +169,28 @@ public class MainActivity extends AppCompatActivity {
         incomingMove = new ServerListener() {
             @Override
             public void notifyMessage(String msg) {
-                if (msg.equals("notingtoseehere")) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            //setDeclined();
-                        }
-                    });
+                if (messageIsMove(msg.replace("\n",""))) {
+                    Game.setMoveReceived((true));
+                    Log.e(MainActivity.class.getName(), "check to see if message is a move:"+msg);
+                 //   Log.e(MainActivity.class.getName(),Move.valueOf(msg.replace("\n","")).toString() );
+                    Game.setOtherMove(Move.valueOf(msg.replace("\n","")));
+                //    Log.e(MainActivity.class.getName(), "I got a "+Game.getOtherMove().toString());
                 }
             }
         };
 
     }
+
+    private boolean messageIsMove(String msg) {
+        for (Move m : Move.values()) {
+            //Log.e(MainActivity.class.getName(), "check for move:"+m.toString().length() + " vs "+msg.length());
+            if (m.toString().equals(msg)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     // TODO overall stats and stats by player
     // TODO have a database of players in the network

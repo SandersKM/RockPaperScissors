@@ -45,7 +45,7 @@ public class GameActivity extends AppCompatActivity {
                         Log.e(GameActivity.class.getName(), "Main game waiting loop moveSent:"+Game.getMoveSent()+"   moveReceived:"+Game.getMoveReceived());
                    }
                     Log.e(GameActivity.class.getName(), "finished main game loop");
-                    //Log.e(GameActivity.class.getName(), Moves.compareMoves(Game.getMyMove(),Game.getOtherMove()).toString());
+                    Log.e(GameActivity.class.getName(), Game.getMyMove().toString()+ " "+Game.getOtherMove().toString());
                     showResult(Moves.compareMoves(Game.getMyMove(),Game.getOtherMove()));
                 } catch (Exception e) {
                     Log.e(GameActivity.class.getName(), "Could not start game thread");
@@ -105,6 +105,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 countDownTimer.cancel();
                 Game.setMoveSent(true);
+                Game.setMyMove(Move.Rock);
                 Communication.send(Move.Rock.toString(),Server.getOpponentIP(),8888);
                 Log.e(GameActivity.class.getName(), "I sent a rock");
                 //showResult(getResult());
@@ -120,6 +121,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 countDownTimer.cancel();
                 Game.setMoveSent(true);
+                Game.setMyMove(Move.Paper);
                 Communication.send(Move.Paper.toString(),Server.getOpponentIP(),8888);
                 Log.e(GameActivity.class.getName(), "I sent paper");
                 //showResult(getResult());
@@ -133,6 +135,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 countDownTimer.cancel();
                 Game.setMoveSent(true);
+                Game.setMyMove(Move.Scissors);
                 Communication.send(Move.Scissors.toString(),Server.getOpponentIP(),8888);
                 Log.e(GameActivity.class.getName(), "I sent scissors");
                 //showResult(getResult());
