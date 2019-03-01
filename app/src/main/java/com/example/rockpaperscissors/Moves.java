@@ -10,12 +10,13 @@ enum Move {Rock, Paper, Scissors, Quit}
 
 public class Moves {
 
-
-    public void compareMoves(Move myMove, Move otherMove) {
-
+// Modifying this to use Kate's Results enum (Dan)
+//    public void compareMoves(Move myMove, Move otherMove) {
+    public static Results compareMoves(Move myMove, Move otherMove) {
         //you quit
         if (myMove.equals(Move.Quit)) {
             System.out.println("You LOSE because you're a quitter!");
+            return Results.TIMEOUT_THIS;
         }
 
         //popup ties
@@ -24,7 +25,8 @@ public class Moves {
             || (myMove.equals(Move.Scissors) && otherMove.equals(Move.Scissors))){
 
                 // Here is where the dialog box call goes
-                System.out.println("You TIED because " + otherMove.toString() + " is the same as " + myMove.toString() + "!");
+                return Results.TIE;
+                //System.out.println("You TIED because " + otherMove.toString() + " is the same as " + myMove.toString() + "!");
             }
 
         //popup wins
@@ -33,7 +35,8 @@ public class Moves {
             || (myMove.equals(Move.Scissors) && otherMove.equals(Move.Paper))){
 
                 // Here is where the dialog box call goes
-                System.out.println("You WIN because " + myMove.toString() + " beats" + otherMove.toString() + "!");
+                return Results.WIN;
+                //System.out.println("You WIN because " + myMove.toString() + " beats" + otherMove.toString() + "!");
             }
 
         //popup losses
@@ -42,9 +45,10 @@ public class Moves {
             || (myMove.equals(Move.Scissors) && otherMove.equals(Move.Rock))){
 
                 // Here is where the dialog box call goes
-                System.out.println("You LOSE because " + otherMove.toString() + " beats" + myMove.toString() + "!");
+                return Results.LOSE;
+                //System.out.println("You LOSE because " + otherMove.toString() + " beats" + myMove.toString() + "!");
             }
         // Display the quit/play again screen? or just call playAgain()?
-
+        return Results.TIMEOUT_Other;
     }
 }

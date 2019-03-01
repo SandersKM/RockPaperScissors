@@ -1,6 +1,6 @@
 package com.example.rockpaperscissors;
 
-/*public class Game {
+public class Game {
     static Move myMove, otherMove;
     static boolean moveSent = false;
     static boolean moveReceived = false;
@@ -21,4 +21,3 @@ package com.example.rockpaperscissors;
     public static void setturnCompleted(boolean value) {turnCompleted = value; }
     public static boolean getTurnCompleted() {return turnCompleted; }
 }
-*/
