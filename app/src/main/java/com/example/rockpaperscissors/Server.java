@@ -36,6 +36,7 @@ public class Server {
     }
 
     public SocketEchoThread listenOnce() throws IOException {
+        Log.e(Server.class.getName(), "I heard something");
         Socket s = accepter.accept();
         opponentIP =  s.getInetAddress().toString().substring(1);
         SocketEchoThread echoer = new SocketEchoThread(s, listeners);
@@ -49,5 +50,11 @@ public class Server {
     public static void setOpponentIP (String ip) {
         opponentIP = ip;
     }
+
+
+
+
+
+
 
 }

@@ -26,8 +26,8 @@ public class GameActivity extends AppCompatActivity {
         moveListener();
         countdown(); // How will we restart this with playagain? reinitialize this screen?
         //adding a second server here because i dont thinkk the one in main activity is working while we are in game activity
-        initializeServerListeners();
-        startListeners();
+        //initializeServerListeners();
+        //startListeners();
 
 
         playGame();
@@ -88,7 +88,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showResult(Results result) {
-        DialogBox_GameResult resultDialog =  new DialogBox_GameResult(this.context, "IP");
+        DialogBox_GameResult resultDialog =  new DialogBox_GameResult(this.context, Server.getOpponentIP());
         resultDialog.setResult(result);
         resultDialog.showResults();
     }

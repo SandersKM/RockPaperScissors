@@ -1,5 +1,7 @@
 package com.example.rockpaperscissors;
 
+import android.util.Log;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -22,6 +24,7 @@ public class Communication {
                 try {
                     Socket target = new Socket(host, port);
                     sendOver(target, message);
+                    Log.e(Communication.class.getName(), "Sending message: "+message);
                     target.close();
                 } catch (final Exception e) {
                     /*MainActivity.runOnUiThread(new Runnable() {
