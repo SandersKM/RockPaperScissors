@@ -1,24 +1,26 @@
 package com.example.rockpaperscissors;
 
 public class Game {
-    static Move myMove, otherMove;
-    static boolean moveSent = false;
-    static boolean moveReceived = false;
-    static boolean turnCompleted = false;
+    Move myMove, otherMove;
+    boolean moveSent = false;
+    boolean moveReceived = false;
+    boolean turnCompleted = false;
+
+    public Game(){}
 
 
-    public static Move getMyMove() {return myMove;}
-    public static void setMyMove (Move m) {myMove = m;}
+    public Move getMyMove() {return myMove;}
+    public void setMyMove (Move m) {myMove = m;}
 
-    public static Move getOtherMove() {return otherMove;}
-    public static void setOtherMove (Move m) {myMove = m; }
+    public Move getOtherMove() {return otherMove;}
+    public void setOtherMove (Move m) {myMove = m; }
 
-    public static void setMoveSent(boolean value) {moveSent = value; }
-    public static boolean getMoveSent() {return moveSent; }
+    public void setMoveSent(boolean value) {moveSent = value; }
+    public boolean getMoveSent() {return moveSent; }
 
-    public static void setMoveReceived(boolean value) {moveReceived = value; }
-    public static boolean getMoveReceived() {return moveReceived; }
+    public void setMoveReceived(boolean value) {moveReceived = value; }
+    public boolean getMoveReceived() {return moveReceived; }
 
-    public static void setturnCompleted(boolean value) {turnCompleted = value; }
-    public static boolean getTurnCompleted() {return turnCompleted; }
+    public  void setturnCompleted(boolean value) {turnCompleted = value; }
+    public  boolean getTurnCompleted() {return turnCompleted; }
 }

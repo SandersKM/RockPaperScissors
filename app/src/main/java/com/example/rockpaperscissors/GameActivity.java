@@ -1,6 +1,7 @@
 package com.example.rockpaperscissors;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,13 +17,33 @@ public class GameActivity extends AppCompatActivity {
     final Context context = this;
     Button rock, paper, scissors;
     private TextView timer;
+    Game currentGame;
+    Server s;
+    ServerListener incomingMove;
     CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findIDs();
+        s = (Server)getIntent().getSerializableExtra("server");
+        incomingMove = new ServerListener() {
+            @Override
+            public void notifyMessage(String msg) {
+                if (messageIsMove(msg.replace("\n",""))) {
+                    currentGame.setMoveReceived((true));
+                    Log.e(MainActivity.class.getName(), "check to see if message is a move:"+msg);
+                    //   Log.e(MainActivity.class.getName(),Move.valueOf(msg.replace("\n","")).toString() );
+                    currentGame.setOtherMove(Move.valueOf(msg.replace("\n","")));
+                    //    Log.e(MainActivity.class.getName(), "I got a "+Game.getOtherMove().toString());
+                }
+            }
+        };
+
+
+        s.addListener(incomingMove);
         moveListener();
+        currentGame = new Game();
         countdown(); // How will we restart this with playagain? reinitialize this screen?
         playGame();
     }
@@ -41,12 +62,13 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    while (!(Game.getMoveSent() && Game.getMoveReceived())) {
-                        Log.e(GameActivity.class.getName(), "Main game waiting loop moveSent:"+Game.getMoveSent()+"   moveReceived:"+Game.getMoveReceived());
+                    while (!(currentGame.getMoveSent() && currentGame.getMoveReceived())) {
+                        Log.e(GameActivity.class.getName(), "Main game waiting loop moveSent:"+currentGame.getMoveSent()+
+                                "   moveReceived:"+currentGame.getMoveReceived());
                    }
                     Log.e(GameActivity.class.getName(), "finished main game loop");
-                    Log.e(GameActivity.class.getName(), Game.getMyMove().toString()+ " "+Game.getOtherMove().toString());
-                    showResult(Moves.compareMoves(Game.getMyMove(),Game.getOtherMove()));
+                    Log.e(GameActivity.class.getName(), currentGame.getMyMove().toString()+ " "+currentGame.getOtherMove().toString());
+                    showResult(Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()));
                 } catch (Exception e) {
                     Log.e(GameActivity.class.getName(), "Could not start game thread");
                 }
@@ -104,8 +126,8 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 countDownTimer.cancel();
-                Game.setMoveSent(true);
-                Game.setMyMove(Move.Rock);
+                currentGame.setMoveSent(true);
+                currentGame.setMyMove(Move.Rock);
                 Communication.send(Move.Rock.toString(),Server.getOpponentIP(),8888);
                 Log.e(GameActivity.class.getName(), "I sent a rock");
                 //showResult(getResult());
@@ -120,8 +142,8 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 countDownTimer.cancel();
-                Game.setMoveSent(true);
-                Game.setMyMove(Move.Paper);
+                currentGame.setMoveSent(true);
+                currentGame.setMyMove(Move.Paper);
                 Communication.send(Move.Paper.toString(),Server.getOpponentIP(),8888);
                 Log.e(GameActivity.class.getName(), "I sent paper");
                 //showResult(getResult());
@@ -134,8 +156,8 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 countDownTimer.cancel();
-                Game.setMoveSent(true);
-                Game.setMyMove(Move.Scissors);
+                currentGame.setMoveSent(true);
+                currentGame.setMyMove(Move.Scissors);
                 Communication.send(Move.Scissors.toString(),Server.getOpponentIP(),8888);
                 Log.e(GameActivity.class.getName(), "I sent scissors");
                 //showResult(getResult());
@@ -157,5 +179,17 @@ public class GameActivity extends AppCompatActivity {
             }
         }.start();
     }
+
+
+    private boolean messageIsMove(String msg) {
+        for (Move m : Move.values()) {
+            //Log.e(MainActivity.class.getName(), "check for move:"+m.toString().length() + " vs "+msg.length());
+            if (m.toString().equals(msg)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

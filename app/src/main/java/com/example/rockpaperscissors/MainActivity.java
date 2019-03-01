@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
     final Context context = this;
     Button invite;
+    Server s;
     TextView my_IP, other_IP, other_port, incoming, test;
     ServerListener gameInvite, acceptInvite, declineInvite, incomingMove;
 
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Server s = new Server();
+                    s = new Server();
                     s.addListener(gameInvite);
                     s.addListener(acceptInvite);
                     s.addListener(declineInvite);
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void toGameActivity(){
         Intent forwardIntent = new Intent(context, GameActivity.class);
+        forwardIntent.putExtra("server",s);
         context.startActivity(forwardIntent);
     }
 
@@ -166,18 +168,18 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
-        incomingMove = new ServerListener() {
+ /*       incomingMove = new ServerListener() {
             @Override
             public void notifyMessage(String msg) {
                 if (messageIsMove(msg.replace("\n",""))) {
-                    Game.setMoveReceived((true));
+                    currentGame.setMoveReceived((true));
                     Log.e(MainActivity.class.getName(), "check to see if message is a move:"+msg);
                  //   Log.e(MainActivity.class.getName(),Move.valueOf(msg.replace("\n","")).toString() );
-                    Game.setOtherMove(Move.valueOf(msg.replace("\n","")));
+                    currentGame.setOtherMove(Move.valueOf(msg.replace("\n","")));
                 //    Log.e(MainActivity.class.getName(), "I got a "+Game.getOtherMove().toString());
                 }
             }
-        };
+        };*/
 
     }
 
