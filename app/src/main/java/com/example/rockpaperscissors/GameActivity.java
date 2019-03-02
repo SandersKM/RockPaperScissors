@@ -45,8 +45,6 @@ public class GameActivity extends AppCompatActivity {
             Log.e(GameActivity.class.getName(), "Could not start server");
         }
 
-
-
         moveListener();
         currentGame = new Game();
         countdown(); // How will we restart this with playagain? reinitialize this screen?
@@ -67,13 +65,15 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    while (!(currentGame.getMoveSent() && currentGame.getMoveReceived())) {
-                        Log.e(GameActivity.class.getName(), "Main game waiting loop moveSent:"+currentGame.getMoveSent()+
-                                "   moveReceived:"+currentGame.getMoveReceived());
-                   }
+                    while (currentGame.getMyMove().equals(Move.Empty)
+                            || currentGame.getOtherMove().equals(Move.Empty)) {
+                        Log.e(GameActivity.class.getName(), "Game waiting loop myMove:"+currentGame.getMyMove().toString()+
+                                " otherMove:"+currentGame.getOtherMove().toString());
+                    }
                     Log.e(GameActivity.class.getName(), "finished main game loop");
                     Log.e(GameActivity.class.getName(), currentGame.getMyMove().toString()+ " "+currentGame.getOtherMove().toString());
-                    //showResult(Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()));
+                    Log.e(GameActivity.class.getName(), Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()).toString());
+                    showResult(Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()));
                     Log.e(GameActivity.class.getName(), "Main game waiting loop moveSent:"+currentGame.getMoveSent()+
                             "   moveReceived:"+currentGame.getMoveReceived());
                 } catch (Exception e) {
@@ -113,9 +113,14 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showResult(Results result) {
-        DialogBox_GameResult resultDialog =  new DialogBox_GameResult(this.context, Server.getOpponentIP());
+        Log.e(GameActivity.class.getName(), "about to make results pop up object");
+        //KATE I think the next line of code is throwing the error
+        DialogBox_GameResult resultDialog =  new DialogBox_GameResult(this.context, "IP");
+        Log.e(GameActivity.class.getName(), "about to set results for the dialog");
         resultDialog.setResult(result);
+        Log.e(GameActivity.class.getName(), "this next method is called showresults inside showresults?");
         resultDialog.showResults();
+        Log.e(GameActivity.class.getName(), "all done");
     }
 
 

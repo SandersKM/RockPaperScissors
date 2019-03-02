@@ -7,8 +7,8 @@ public class Game {
     boolean turnCompleted = false;
 
     public Game(){
-        myMove = Move.Quit;
-        otherMove = Move.Quit;
+        myMove = Move.Empty;
+        otherMove = Move.Paper;  // change back to EMPTY . Just doing this to test with one device!!!!!
     }
 
 
