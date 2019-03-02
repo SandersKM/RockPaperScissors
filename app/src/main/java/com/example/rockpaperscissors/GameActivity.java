@@ -115,7 +115,8 @@ public class GameActivity extends AppCompatActivity {
     private void showResult(Results result) {
         Log.e(GameActivity.class.getName(), "about to make results pop up object");
         //KATE I think the next line of code is throwing the error
-        DialogBox_GameResult resultDialog =  new DialogBox_GameResult(this.context, "IP");
+        DialogBox_GameResult resultDialog = null;
+        resultDialog = new DialogBox_GameResult(this.context, Server.getOpponentIP());
         Log.e(GameActivity.class.getName(), "about to set results for the dialog");
         resultDialog.setResult(result);
         Log.e(GameActivity.class.getName(), "this next method is called showresults inside showresults?");
