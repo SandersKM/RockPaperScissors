@@ -14,9 +14,19 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
-public class Server implements Serializable {
+public class Server  {
 
     public static final int APP_PORT = 8888;
+
+    private static Server instance;
+
+    public static Server get() throws IOException {
+        if (instance == null) {
+            instance = new Server();
+        }
+        return instance;
+    }
+
     private static String opponentIP;
     private ServerSocket accepter;
     private ArrayList<ServerListener> listeners = new ArrayList<>();
@@ -51,11 +61,5 @@ public class Server implements Serializable {
     public static void setOpponentIP (String ip) {
         opponentIP = ip;
     }
-
-
-
-
-
-
 
 }

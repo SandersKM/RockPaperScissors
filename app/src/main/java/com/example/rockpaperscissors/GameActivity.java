@@ -18,7 +18,6 @@ public class GameActivity extends AppCompatActivity {
     Button rock, paper, scissors;
     private TextView timer;
     Game currentGame;
-    Server s;
     ServerListener incomingMove;
     CountDownTimer countDownTimer;
 
@@ -26,7 +25,6 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findIDs();
-        s = (Server)getIntent().getSerializableExtra("server");
         incomingMove = new ServerListener() {
             @Override
             public void notifyMessage(String msg) {
@@ -40,8 +38,19 @@ public class GameActivity extends AppCompatActivity {
             }
         };
 
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Server.get().addListener(incomingMove);
+                    Server.get().listen();
+                } catch (IOException e) {
+                    Log.e(MainActivity.class.getName(), "Could not start server");
+                }
+            }
+        }).start();
 
-        s.addListener(incomingMove);
+
         moveListener();
         currentGame = new Game();
         countdown(); // How will we restart this with playagain? reinitialize this screen?

@@ -67,12 +67,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    s = new Server();
-                    s.addListener(gameInvite);
-                    s.addListener(acceptInvite);
-                    s.addListener(declineInvite);
-                    //s.addListener(incomingMove);
-                    s.listen();
+                    Server.get().addListener(gameInvite);
+                    Server.get().addListener(acceptInvite);
+                    Server.get().addListener(declineInvite);
+                    //Server.get().addListener(incomingMove);
+                    Server.get().listen();
                 } catch (IOException e) {
                     Log.e(MainActivity.class.getName(), "Could not start server");
                 }
@@ -120,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void toGameActivity(){
         Intent forwardIntent = new Intent(context, GameActivity.class);
-        forwardIntent.putExtra("server",s);
         context.startActivity(forwardIntent);
     }
 
