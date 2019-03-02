@@ -6,7 +6,10 @@ public class Game {
     boolean moveReceived = false;
     boolean turnCompleted = false;
 
-    public Game(){}
+    public Game(){
+        myMove = Move.Quit;
+        otherMove = Move.Quit;
+    }
 
 
     public Move getMyMove() {return myMove;}
