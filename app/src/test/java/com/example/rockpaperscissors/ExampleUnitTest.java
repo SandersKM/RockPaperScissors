@@ -14,4 +14,212 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
+    // // // // // // // //
+    // IP_AddressEditor  //
+    // // // // // // // //
+
+    @Test
+    public void digitAdding_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        assertEquals("873", ip_addressEditor.getIP());
+    }
+
+    @Test
+    public void digitAddingOverLimit_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDigit("9");
+        assertEquals("873", ip_addressEditor.getIP());
+    }
+
+    @Test
+    public void canAddDot1_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        assertEquals(false, ip_addressEditor.canAddDot());
+    }
+
+    @Test
+    public void canAddDot2_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        assertEquals(false, ip_addressEditor.canAddDot());
+    }
+
+    @Test
+    public void dotAdding1_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDot();
+        assertEquals("87.", ip_addressEditor.getIP());
+    }
+
+    @Test
+    public void dotAdding2_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        assertEquals("873.", ip_addressEditor.getIP());
+    }
+
+    @Test
+    public void dotAdding3_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDot();
+        assertEquals("873.", ip_addressEditor.getIP());
+    }
+
+    @Test
+    public void dotAdding4_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("4");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("1");
+        assertEquals("873.4.1", ip_addressEditor.getIP());
+    }
+
+    @Test
+    public void backspace1_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("4");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("1");
+        ip_addressEditor.backspace();
+        ip_addressEditor.backspace();
+        assertEquals("873.4", ip_addressEditor.getIP());
+    }
+
+    @Test
+    public void backspace2_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("4");
+        ip_addressEditor.backspace();
+        ip_addressEditor.backspace();
+        assertEquals(true, ip_addressEditor.consecutiveDigitLimitReached());
+    }
+    @Test
+    public void backspace3_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("4");
+        ip_addressEditor.backspace();
+        assertEquals(0, ip_addressEditor.consecutiveDigits);
+    }
+
+    @Test
+    public void backspace4_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("4");
+        ip_addressEditor.backspace();
+        ip_addressEditor.backspace();
+        ip_addressEditor.backspace();
+        assertEquals(2, ip_addressEditor.consecutiveDigits);
+    }
+
+    @Test
+    public void backspace5_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.backspace();
+        ip_addressEditor.backspace();
+        assertEquals("", ip_addressEditor.getIP());
+    }
+
+    @Test
+    public void backspace6_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.backspace();
+        ip_addressEditor.backspace();
+        assertEquals(0, ip_addressEditor.consecutiveDigits);
+    }
+
+    public void isFull1_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("4");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("1");
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDigit("2");
+        assertEquals(true, ip_addressEditor.isFull());
+    }
+
+    public void isFull2_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("4");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("1");
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.backspace();
+        assertEquals(false, ip_addressEditor.isFull());
+    }
+
+    public void isFull3_isCorrect(){
+        IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
+        ip_addressEditor.addDigit("8");
+        ip_addressEditor.addDigit("7");
+        ip_addressEditor.addDigit("3");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("4");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("1");
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDot();
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.backspace();
+        ip_addressEditor.addDigit("1");
+        ip_addressEditor.addDigit("2");
+        ip_addressEditor.addDot();
+        assertEquals("873.4.12.221", ip_addressEditor.getIP());
+    }
+
 }
