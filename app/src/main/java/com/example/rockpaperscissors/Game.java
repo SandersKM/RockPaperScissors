@@ -5,7 +5,7 @@ public class Game {
 
     public Game(){
         myMove = Move.Empty;
-        otherMove = Move.Paper;  //just for testing need to change back to Empty
+        otherMove = Move.Empty;  //just for testing need to change back to Empty
     }
 
 
