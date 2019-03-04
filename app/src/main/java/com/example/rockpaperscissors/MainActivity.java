@@ -53,6 +53,12 @@ public class MainActivity extends AppCompatActivity {
         keyboard_back = findViewById(R.id.back);
     }
 
+    @Override
+    public void onBackPressed(){
+        moveTaskToBack(false);
+    }
+
+
     public String getOther_IP() {
         return other_IP.toString();
     }
