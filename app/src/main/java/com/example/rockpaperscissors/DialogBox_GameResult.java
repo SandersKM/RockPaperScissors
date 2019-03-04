@@ -20,7 +20,7 @@ public class DialogBox_GameResult implements DialogBox{
     public void setText(String IP) {
         dialogBoxView.setIpText(IP);
         dialogBoxView.setNoButtonText("Quit");
-        dialogBoxView.setYesButtonText("Play Again");
+        dialogBoxView.getYes().setVisibility(View.GONE);
     }
 
     @Override
