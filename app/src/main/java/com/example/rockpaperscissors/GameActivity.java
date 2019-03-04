@@ -58,11 +58,12 @@ public class GameActivity extends AppCompatActivity {
                             " "+currentGame.getOtherMove().toString());
                     Log.e(GameActivity.class.getName(),
                             Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()).toString());
-
-                    //showResult(Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()));
-                    showResult(Results.TIMEOUT_THIS);
-
-
+                    GameActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            showResult(Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()));
+                        }
+                    });
                 } catch (Exception e) {
                     Log.e(GameActivity.class.getName(), "Could not start game thread");
                 }
