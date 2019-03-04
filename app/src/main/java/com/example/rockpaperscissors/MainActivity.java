@@ -178,6 +178,32 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+        acceptInvite = new ServerListener() {
+            @Override
+            public void response(String msg) {
+                if (msg.equals("yes\n")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            toGameActivity();
+                        }
+                    });
+                }
+            }
+        };
+        declineInvite = new ServerListener() {
+            @Override
+            public void response(String msg) {
+                if (msg.equals("no\n")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setDeclined();
+                        }
+                    });
+                }
+            }
+        };
     }
 
     // // // // // // // //
