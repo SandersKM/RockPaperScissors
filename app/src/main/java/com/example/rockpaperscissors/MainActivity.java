@@ -116,7 +116,43 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setWaitingForResponse(){
-        new DialogBox_Waiting(context, other_IP.getText().toString());
+        DialogBox_Waiting waitingBox = new DialogBox_Waiting(context, other_IP.getText().toString());
+        initAcceptInvite(waitingBox);
+        initDeclineInvite(waitingBox);
+    }
+
+    private void initDeclineInvite(final DialogBox_Waiting waitingBox) {
+        declineInvite = new ServerListener() {
+            @Override
+            public void response(String msg) {
+                if (msg.equals("no\n")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            waitingBox.dialogBoxView.getDialog().dismiss();
+                            setDeclined();
+                        }
+                    });
+                }
+            }
+        };
+    }
+
+    private void initAcceptInvite(final DialogBox_Waiting waitingBox) {
+        acceptInvite = new ServerListener() {
+            @Override
+            public void response(String msg) {
+                if (msg.equals("yes\n")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            toGameActivity();
+                            waitingBox.dialogBoxView.getDialog().dismiss();
+                        }
+                    });
+                }
+            }
+        };
     }
 
     private void setDeclined(){
@@ -142,37 +178,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
-
-        acceptInvite = new ServerListener() {
-            @Override
-            public void response(String msg) {
-                if (msg.equals("yes\n")) {
-
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toGameActivity();
-                        }
-                    });
-                }
-            }
-        };
-
-        declineInvite = new ServerListener() {
-            @Override
-            public void response(String msg) {
-                if (msg.equals("no\n")) {
-
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setDeclined();
-                        }
-                    });
-                }
-            }
-        };
-
     }
 
     // // // // // // // //
