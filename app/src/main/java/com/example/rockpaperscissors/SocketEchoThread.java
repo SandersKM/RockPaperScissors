@@ -24,11 +24,11 @@ public class SocketEchoThread extends Thread {
     public void run() {
         try {
             String msg = Communication.receive(socket);
-//            Log.e(SocketEchoThread.class.getName(), "This is what I hear: "+msg);
+            Log.e(SocketEchoThread.class.getName(), "This is what I hear: "+msg);
             socket.close();
             for (ServerListener listener: listeners) {
                 listener.response(msg);
-//                Log.e(SocketEchoThread.class.getName(), "looping through listeners");
+                Log.e(SocketEchoThread.class.getName(), "looping through listeners");
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();

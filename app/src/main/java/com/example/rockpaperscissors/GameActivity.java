@@ -99,9 +99,12 @@ public class GameActivity extends AppCompatActivity {
                 countDownTimer.cancel();
                 currentGame.setMyMove(Move.Rock);
                 try {
+                    Log.e(GameActivity.class.getName(), "sent rock");
                     Communication.send(Move.Rock.toString(),
                             Server.get().getOpponentIP(),Server.APP_PORT);
+
                 } catch (IOException e) {
+                    Log.e(GameActivity.class.getName(), "ddint send rock)");
                     e.printStackTrace();
                 }
             }
@@ -176,6 +179,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void response(String msg) {
                 if (messageIsMove(msg.replace("\n",""))) {
+                    Log.e(GameActivity.class.getName(), "set other move to "+msg.replace("\n",""));
                     currentGame.setOtherMove(Move.valueOf(msg.replace("\n","")));
                 }
             }
@@ -184,6 +188,7 @@ public class GameActivity extends AppCompatActivity {
 
     private boolean messageIsMove(String msg) {
         for (Move m : Move.values()) {
+            Log.e(GameActivity.class.getName(), "check for incoming move");
             if (m.toString().equals(msg)) {
                 return true;
             }
@@ -193,6 +198,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void startListeners() {
         try {
+            Log.e(GameActivity.class.getName(), "start move listener");
             Server.get().addListener(incomingMove);
         } catch (IOException e) {
             Log.e(GameActivity.class.getName(), "Could not start server");

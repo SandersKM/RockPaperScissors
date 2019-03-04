@@ -13,6 +13,6 @@ public class Game {
     public void setMyMove (Move m) {myMove = m;}
 
     public Move getOtherMove() {return otherMove;}
-    public void setOtherMove (Move m) {myMove = m; }
+    public void setOtherMove (Move m) {otherMove = m; }
 
 }
