@@ -33,6 +33,12 @@ public class GameActivity extends AppCompatActivity {
         playGame();
     }
 
+    @Override
+    public void onBackPressed(){
+        moveTaskToBack(false);
+    }
+
+
     public void findIDs(){
         setContentView(R.layout.activity_game);
         rock = findViewById(R.id.stone_button);
@@ -173,7 +179,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    @Override
+/*    @Override
     public void onPause() {
         super.onPause();
         try {
@@ -181,7 +187,9 @@ public class GameActivity extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
+
+
 
     private void initializeServerListeners() {
         incomingMove = new ServerListener() {
