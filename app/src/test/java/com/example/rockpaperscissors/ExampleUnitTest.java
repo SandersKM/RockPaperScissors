@@ -2,6 +2,9 @@ package com.example.rockpaperscissors;
 
 import org.junit.Test;
 
+import java.io.IOException;
+import java.net.Socket;
+
 import static org.junit.Assert.*;
 
 /**
@@ -293,5 +296,27 @@ public class ExampleUnitTest {
         IP_AddressEditor ip_addressEditor = new IP_AddressEditor();
         assertEquals( false, ip_addressEditor.isValidIP());
     }
+
+
+/*    @Test
+    public void test_send_receive() throws Exception {
+        final String testMsg = "This is a test.\nThis is only a test.\n";
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Server.get().listenOnce().start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        Socket test = new Socket("localhost", Server.APP_PORT);
+        Communication.sendOver(test, testMsg);
+        String result = Communication.receive(test);
+        assertEquals(testMsg, result);
+    }*/
 
 }
