@@ -102,7 +102,11 @@ public class MainActivity extends AppCompatActivity {
 
     // https://www.mkyong.com/android/android-custom-dialog-example/
     private void setInvitation() {
-        new DialogBox_Invitation(context, Server.getOpponentIP());
+        try {
+            new DialogBox_Invitation(context, Server.get().getOpponentIP());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void setWaitingForResponse(){
@@ -121,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializeServerListeners() {
         gameInvite = new ServerListener() {
             @Override
-            public void notifyMessage(String msg) {
+            public void response(String msg) {
                 if (msg.equals("PlayRockPaperScissors\n")) {
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
@@ -135,7 +139,7 @@ public class MainActivity extends AppCompatActivity {
 
         acceptInvite = new ServerListener() {
             @Override
-            public void notifyMessage(String msg) {
+            public void response(String msg) {
                 if (msg.equals("yes\n")) {
 
                     MainActivity.this.runOnUiThread(new Runnable() {
@@ -150,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
 
         declineInvite = new ServerListener() {
             @Override
-            public void notifyMessage(String msg) {
+            public void response(String msg) {
                 if (msg.equals("no\n")) {
 
                     MainActivity.this.runOnUiThread(new Runnable() {

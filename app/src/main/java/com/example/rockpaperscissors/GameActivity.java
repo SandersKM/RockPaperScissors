@@ -25,22 +25,8 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         findIDs();
-        incomingMove = new ServerListener() {
-            @Override
-            public void notifyMessage(String msg) {
-                if (messageIsMove(msg.replace("\n",""))) {
-                    currentGame.setOtherMove(Move.valueOf(msg.replace("\n","")));
-                 }
-            }
-        };
-
-
-        try {
-            Server.get().addListener(incomingMove);
-        } catch (IOException e) {
-            Log.e(GameActivity.class.getName(), "Could not start server");
-        }
-
+        initializeServerListeners();
+        startListeners();
         moveListener();
         currentGame = new Game();
         countdown(); // How will we restart this with playagain? reinitialize this screen?
@@ -63,17 +49,18 @@ public class GameActivity extends AppCompatActivity {
                 try {
                     while (currentGame.getMyMove().equals(Move.Empty)
                             || currentGame.getOtherMove().equals(Move.Empty)) {
-                        Log.e(GameActivity.class.getName(), "Game waiting loop myMove:"+currentGame.getMyMove().toString()+
+                        Log.e(GameActivity.class.getName(), "Game loop myMove:" +
+                                currentGame.getMyMove().toString()+
                                 " otherMove:"+currentGame.getOtherMove().toString());
                     }
                     Log.e(GameActivity.class.getName(), "finished main game loop");
-                    Log.e(GameActivity.class.getName(), currentGame.getMyMove().toString()+ " "+currentGame.getOtherMove().toString());
-                    Log.e(GameActivity.class.getName(), Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()).toString());
-                    Log.e(GameActivity.class.getName(), Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()).getText());
-
+                    Log.e(GameActivity.class.getName(), currentGame.getMyMove().toString()+
+                            " "+currentGame.getOtherMove().toString());
+                    Log.e(GameActivity.class.getName(),
+                            Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()).toString());
 
                     //showResult(Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()));
-                    //showResult(Results.TIMEOUT_THIS);
+                    showResult(Results.TIMEOUT_THIS);
 
 
                 } catch (Exception e) {
@@ -92,7 +79,11 @@ public class GameActivity extends AppCompatActivity {
 
     private void showResult(Results result) {
         DialogBox_GameResult resultDialog = null;
-        resultDialog = new DialogBox_GameResult(this.context, Server.getOpponentIP());
+        try {
+            resultDialog = new DialogBox_GameResult(this.context, Server.get().getOpponentIP());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         resultDialog.setResult(result);
         resultDialog.showResults();
     }
@@ -106,7 +97,12 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 countDownTimer.cancel();
                 currentGame.setMyMove(Move.Rock);
-                Communication.send(Move.Rock.toString(),Server.getOpponentIP(),Server.APP_PORT);
+                try {
+                    Communication.send(Move.Rock.toString(),
+                            Server.get().getOpponentIP(),Server.APP_PORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -118,7 +114,12 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 countDownTimer.cancel();
                 currentGame.setMyMove(Move.Paper);
-                Communication.send(Move.Paper.toString(),Server.getOpponentIP(),Server.APP_PORT);
+                try {
+                    Communication.send(Move.Paper.toString(),
+                            Server.get().getOpponentIP(),Server.APP_PORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -129,7 +130,12 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 countDownTimer.cancel();
                 currentGame.setMyMove(Move.Scissors);
-                Communication.send(Move.Scissors.toString(),Server.getOpponentIP(),Server.APP_PORT);
+                try {
+                    Communication.send(Move.Scissors.toString(),
+                            Server.get().getOpponentIP(),Server.APP_PORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -143,11 +149,37 @@ public class GameActivity extends AppCompatActivity {
 
             public void onFinish() {
                 showResult(Results.TIMEOUT_THIS);
-                Communication.send(Move.Quit.toString(), Server.getOpponentIP(), Server.APP_PORT);
+                try {
+                    Communication.send(Move.Quit.toString(),
+                            Server.get().getOpponentIP(), Server.APP_PORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }.start();
     }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            Communication.send(Move.Quit.toString(), Server.get().getOpponentIP(), Server.APP_PORT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initializeServerListeners() {
+        incomingMove = new ServerListener() {
+            @Override
+            public void response(String msg) {
+                if (messageIsMove(msg.replace("\n",""))) {
+                    currentGame.setOtherMove(Move.valueOf(msg.replace("\n","")));
+                }
+            }
+        };
+    }
 
     private boolean messageIsMove(String msg) {
         for (Move m : Move.values()) {
@@ -158,12 +190,13 @@ public class GameActivity extends AppCompatActivity {
         return false;
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        Communication.send(Move.Quit.toString(), Server.getOpponentIP(), Server.APP_PORT);
+    private void startListeners() {
+        try {
+            Server.get().addListener(incomingMove);
+        } catch (IOException e) {
+            Log.e(GameActivity.class.getName(), "Could not start server");
+        }
     }
-
 
 
 }

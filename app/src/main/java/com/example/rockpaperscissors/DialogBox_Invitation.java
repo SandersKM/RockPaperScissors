@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import java.io.IOException;
 import java.net.Socket;
 
 public class DialogBox_Invitation implements DialogBox{
@@ -32,14 +33,22 @@ public class DialogBox_Invitation implements DialogBox{
         dialogBoxView.getNo().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Communication.send("no",Server.getOpponentIP(), Server.APP_PORT);
+                try {
+                    Communication.send("no",Server.get().getOpponentIP(), Server.APP_PORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 dialogBoxView.getDialog().dismiss();
             }
         });
         dialogBoxView.getYes().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Communication.send("yes",Server.getOpponentIP(), Server.APP_PORT);
+                try {
+                    Communication.send("yes",Server.get().getOpponentIP(), Server.APP_PORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 dialogBoxView.getDialog().dismiss();
                 toGameActivity();
             }

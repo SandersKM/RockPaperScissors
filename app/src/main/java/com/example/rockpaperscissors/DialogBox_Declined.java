@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
+import java.io.IOException;
+
 public class DialogBox_Declined implements DialogBox{
 
     DialogBoxView dialogBoxView;
@@ -32,8 +34,12 @@ public class DialogBox_Declined implements DialogBox{
             public void onClick(View v) {
                 dialogBoxView.getDialog().dismiss();
                 new DialogBox_Waiting(context, "IP_address");
-                //Not sure about best way to get IP from textview in mainactivity here (Dan)
-                //Communication.send("PlayRockPaperScissors", MainActivity.other_IP.getText().toString(), Server.APP_PORT);
+                try {
+                    Communication.send("PlayRockPaperScissors",
+                            Server.get().getOpponentIP(), Server.APP_PORT);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         });
         dialogBoxView.getYes().setOnClickListener(new View.OnClickListener() {

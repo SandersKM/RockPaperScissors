@@ -4,8 +4,8 @@ public class Game {
     Move myMove, otherMove;
 
     public Game(){
-        myMove = Move.Scissors;   // change back to EMPTY . Just doing this to test with one device!!!!!
-        otherMove = Move.Paper;  // change back to EMPTY . Just doing this to test with one device!!!!!
+        myMove = Move.Empty;
+        otherMove = Move.Paper;  //just for testing need to change back to Empty
     }
 
 

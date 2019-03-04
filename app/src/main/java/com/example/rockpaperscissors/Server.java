@@ -27,7 +27,7 @@ public class Server  {
         return instance;
     }
 
-    private static String opponentIP;
+    private String opponentIP;
     private ServerSocket accepter;
     private ArrayList<ServerListener> listeners = new ArrayList<>();
 
@@ -54,11 +54,11 @@ public class Server  {
         return echoer;
     }
 
-    public static String getOpponentIP (){
+    public String getOpponentIP (){
         return opponentIP;
     }
 
-    public static void setOpponentIP (String ip) {
+    public void setOpponentIP (String ip) {
         opponentIP = ip;
     }
 

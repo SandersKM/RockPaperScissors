@@ -2,10 +2,7 @@ package com.example.rockpaperscissors;
 
 import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.ArrayList;
 
@@ -27,11 +24,10 @@ public class SocketEchoThread extends Thread {
     public void run() {
         try {
             String msg = Communication.receive(socket);
-            //Communication.sendOver(socket, msg+"Sender");
             Log.e(SocketEchoThread.class.getName(), "This is what I hear: "+msg);
             socket.close();
             for (ServerListener listener: listeners) {
-                listener.notifyMessage(msg);
+                listener.response(msg);
                 Log.e(SocketEchoThread.class.getName(), "looping through listeners");
             }
         } catch (IOException ioe) {
