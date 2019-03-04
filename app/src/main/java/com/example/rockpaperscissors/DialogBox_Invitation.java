@@ -32,14 +32,14 @@ public class DialogBox_Invitation implements DialogBox{
         dialogBoxView.getNo().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Communication.send("no",Server.getOpponentIP(), 8888);
+                Communication.send("no",Server.getOpponentIP(), Server.APP_PORT);
                 dialogBoxView.getDialog().dismiss();
             }
         });
         dialogBoxView.getYes().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Communication.send("yes",Server.getOpponentIP(), 8888);
+                Communication.send("yes",Server.getOpponentIP(), Server.APP_PORT);
                 dialogBoxView.getDialog().dismiss();
                 toGameActivity();
             }

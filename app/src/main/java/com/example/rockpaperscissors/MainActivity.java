@@ -10,7 +10,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.net.SocketException;
-import java.net.Socket;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
         findIDs();
         setMy_IP();
         setupKeyboard();
-        inviteListener();
+        inviteOtherPlayer();
         initializeServerListeners();
         startListeners();
     }
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
                     Server.get().addListener(gameInvite);
                     Server.get().addListener(acceptInvite);
                     Server.get().addListener(declineInvite);
-                    //Server.get().addListener(incomingMove);
                     Server.get().listen();
                 } catch (IOException e) {
                     Log.e(MainActivity.class.getName(), "Could not start server");
@@ -87,22 +85,12 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    private void inviteListener() {
+    private void inviteOtherPlayer() {
         invite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Communication.send("PlayRockPaperScissors", other_IP.getText().toString(), 8888);
+                Communication.send("PlayRockPaperScissors", other_IP.getText().toString(), Server.APP_PORT);
                 setWaitingForResponse();
-            }
-        });
-    }
-
-
-    private void showIncoming(final String msg) {
-        MainActivity.this.runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                incoming.setText(msg);
             }
         });
     }
@@ -175,29 +163,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
 
- /*       incomingMove = new ServerListener() {
-            @Override
-            public void notifyMessage(String msg) {
-                if (messageIsMove(msg.replace("\n",""))) {
-                    currentGame.setMoveReceived((true));
-                    Log.e(MainActivity.class.getName(), "check to see if message is a move:"+msg);
-                 //   Log.e(MainActivity.class.getName(),Move.valueOf(msg.replace("\n","")).toString() );
-                    currentGame.setOtherMove(Move.valueOf(msg.replace("\n","")));
-                //    Log.e(MainActivity.class.getName(), "I got a "+Game.getOtherMove().toString());
-                }
-            }
-        };*/
-
-    }
-
-    private boolean messageIsMove(String msg) {
-        for (Move m : Move.values()) {
-            //Log.e(MainActivity.class.getName(), "check for move:"+m.toString().length() + " vs "+msg.length());
-            if (m.toString().equals(msg)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     // // // // // // // //
