@@ -98,6 +98,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 countDownTimer.cancel();
                 currentGame.setMyMove(Move.Rock);
+                disableButtons();
                 try {
                     Log.e(GameActivity.class.getName(), "sent rock");
                     Communication.send(Move.Rock.toString(),
@@ -118,6 +119,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 countDownTimer.cancel();
                 currentGame.setMyMove(Move.Paper);
+                disableButtons();
                 try {
                     Communication.send(Move.Paper.toString(),
                             Server.get().getOpponentIP(),Server.APP_PORT);
@@ -134,6 +136,7 @@ public class GameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 countDownTimer.cancel();
                 currentGame.setMyMove(Move.Scissors);
+                disableButtons();
                 try {
                     Communication.send(Move.Scissors.toString(),
                             Server.get().getOpponentIP(),Server.APP_PORT);
@@ -142,6 +145,12 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void disableButtons(){
+        rock.setEnabled(false);
+        paper.setEnabled(false);
+        scissors.setEnabled(false);
     }
 
     public void countdown(){
