@@ -41,10 +41,10 @@ public class Server  {
         }
     }
 
-    public incomingThread listenOnce() throws IOException {
+    public IncomingThread listenOnce() throws IOException {
         Socket s = accepter.accept();
         opponentIP =  s.getInetAddress().toString().substring(1);
-        incomingThread echoer = new incomingThread(s, listeners);
+        IncomingThread echoer = new IncomingThread(s, listeners);
         return echoer;
     }
 
