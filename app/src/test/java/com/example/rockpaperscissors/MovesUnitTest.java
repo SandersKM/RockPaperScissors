@@ -13,9 +13,9 @@ public class MovesUnitTest extends Moves{
     Move myMove;
     Move otherMove;
     Move[] moveList = new Move[3];
-    moveList[0] = Rock;
-    moveList[1] = Paper;
-    moveList[2] = Move.Scissors;
+    //moveList[0] = Rock;
+    //moveList[1] = Paper;
+    //moveList[2] = Move.Scissors;
 
     @Test
     public void isQuitWorking() {
