@@ -95,12 +95,10 @@ public class GameActivity extends AppCompatActivity {
                 currentGame.setMyMove(Move.Rock);
                 disableButtons();
                 try {
-                    Log.e(GameActivity.class.getName(), "sent rock");
                     Communication.send(Move.Rock.toString(),
                             Server.get().getOpponentIP(),Server.APP_PORT);
 
                 } catch (IOException e) {
-                    Log.e(GameActivity.class.getName(), "ddint send rock)");
                     e.printStackTrace();
                 }
             }
@@ -175,7 +173,6 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void response(String msg) {
                 if (messageIsMove(msg.replace("\n",""))) {
-                    Log.e(GameActivity.class.getName(), "set other move to "+msg.replace("\n",""));
                     currentGame.setOtherMove(Move.valueOf(msg.replace("\n","")));
                 }
             }

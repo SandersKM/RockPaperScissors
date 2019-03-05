@@ -52,7 +52,6 @@ public class DialogBox_GameResult implements DialogBox{
     }
 
     private void toMainActivity(){
-        // this is not right, but I don't know how to finish() in this class...
         Intent forwardIntent = new Intent(context, MainActivity.class);
         context.startActivity(forwardIntent);
     }

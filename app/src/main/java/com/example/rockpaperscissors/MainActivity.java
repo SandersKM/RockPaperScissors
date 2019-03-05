@@ -105,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
     // https://www.mkyong.com/android/android-custom-dialog-example/
     private void setInvitation() {
         try {
-            new DialogBox_Invitation(context, Server.get().getOpponentIP());
+            new DialogBox_Invitation(context, Server.get().getIncomingIP());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -192,6 +192,11 @@ public class MainActivity extends AppCompatActivity {
                     MainActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
+                            try {
+                                Server.get().setOpponentIP(Server.get().getIncomingIP());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
                             toGameActivity();
                         }
                     });

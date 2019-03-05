@@ -22,13 +22,13 @@ public class Server  {
         return instance;
     }
 
-    private String opponentIP;
+    private String incomingIP, opponentIP;
     private ServerSocket accepter;
     private ArrayList<ServerListener> listeners = new ArrayList<>();
 
     public Server() throws IOException {
         accepter = new ServerSocket(APP_PORT);
-        opponentIP ="";
+        incomingIP ="";
     }
 
     public void addListener(ServerListener listener) {
@@ -43,16 +43,24 @@ public class Server  {
 
     public IncomingThread listenOnce() throws IOException {
         Socket s = accepter.accept();
-        opponentIP =  s.getInetAddress().toString().substring(1);
+        incomingIP =  s.getInetAddress().toString().substring(1);
         IncomingThread echoer = new IncomingThread(s, listeners);
         return echoer;
     }
 
-    public String getOpponentIP (){
+    public String getIncomingIP(){
+        return incomingIP;
+    }
+
+    public void setIncomingIP(String ip) {
+        incomingIP = ip;
+    }
+
+    public String getOpponentIP(){
         return opponentIP;
     }
 
-    public void setOpponentIP (String ip) {
+    public void setOpponentIP(String ip) {
         opponentIP = ip;
     }
 

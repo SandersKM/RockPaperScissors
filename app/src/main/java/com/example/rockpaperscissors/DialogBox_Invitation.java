@@ -32,7 +32,7 @@ public class DialogBox_Invitation implements DialogBox{
             @Override
             public void onClick(View v) {
                 try {
-                    Communication.send("no",Server.get().getOpponentIP(), Server.APP_PORT);
+                    Communication.send("no",Server.get().getIncomingIP(), Server.APP_PORT);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -43,7 +43,8 @@ public class DialogBox_Invitation implements DialogBox{
             @Override
             public void onClick(View v) {
                 try {
-                    Communication.send("yes",Server.get().getOpponentIP(), Server.APP_PORT);
+                    Communication.send("yes",Server.get().getIncomingIP(), Server.APP_PORT);
+                    Server.get().setOpponentIP(Server.get().getIncomingIP());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

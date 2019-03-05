@@ -35,7 +35,7 @@ public class DialogBox_Declined implements DialogBox{
                 new DialogBox_Waiting(context, "IP_address");
                 try {
                     Communication.send("PlayRockPaperScissors",
-                            Server.get().getOpponentIP(), Server.APP_PORT);
+                            Server.get().getIncomingIP(), Server.APP_PORT);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
