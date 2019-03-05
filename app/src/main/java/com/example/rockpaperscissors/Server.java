@@ -3,13 +3,8 @@ package com.example.rockpaperscissors;
 /**
  * Created by gabriel on 2/15/19.
  */
-import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
-import java.io.Serializable;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -46,11 +41,10 @@ public class Server  {
         }
     }
 
-    public SocketEchoThread listenOnce() throws IOException {
-//        Log.e(Server.class.getName(), "I heard something");
+    public incomingThread listenOnce() throws IOException {
         Socket s = accepter.accept();
         opponentIP =  s.getInetAddress().toString().substring(1);
-        SocketEchoThread echoer = new SocketEchoThread(s, listeners);
+        incomingThread echoer = new incomingThread(s, listeners);
         return echoer;
     }
 

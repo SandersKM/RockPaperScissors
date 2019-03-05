@@ -10,12 +10,12 @@ import java.util.ArrayList;
  * Created by gabriel on 2/15/19.
  */
 
-public class SocketEchoThread extends Thread {
+public class incomingThread extends Thread {
     private Socket socket;
     private ArrayList<ServerListener> listeners = new ArrayList<>();
 
 
-    public SocketEchoThread(Socket socket, ArrayList<ServerListener> listeners) {
+    public incomingThread(Socket socket, ArrayList<ServerListener> listeners) {
         this.socket = socket;
         this.listeners.addAll(listeners);
     }
@@ -24,11 +24,9 @@ public class SocketEchoThread extends Thread {
     public void run() {
         try {
             String msg = Communication.receive(socket);
-            Log.e(SocketEchoThread.class.getName(), "This is what I hear: "+msg);
             socket.close();
             for (ServerListener listener: listeners) {
                 listener.response(msg);
-                Log.e(SocketEchoThread.class.getName(), "looping through listeners");
             }
         } catch (IOException ioe) {
             ioe.printStackTrace();
