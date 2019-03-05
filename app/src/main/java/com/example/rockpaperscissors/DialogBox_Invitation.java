@@ -3,9 +3,7 @@ package com.example.rockpaperscissors;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
-
 import java.io.IOException;
-import java.net.Socket;
 
 public class DialogBox_Invitation implements DialogBox{
 

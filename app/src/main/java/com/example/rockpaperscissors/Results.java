@@ -7,7 +7,6 @@ public enum Results {
     LOSE ("won. Better luck next time!"),
     TIE ("tied with you!");
 
-
     private final String text;
 
     Results(String text){
@@ -15,5 +14,4 @@ public enum Results {
     }
 
     public String getText(){ return text; };
-
 }

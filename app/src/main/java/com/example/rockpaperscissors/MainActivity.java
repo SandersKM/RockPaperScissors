@@ -58,11 +58,6 @@ public class MainActivity extends AppCompatActivity {
         moveTaskToBack(false);
     }
 
-// Not being used?
-   /* public String getOther_IP() {
-        return other_IP.toString();
-    }*/
-
     public void setMy_IP(){
         try {
             my_IP.setText(Utilities.getLocalIpAddress());

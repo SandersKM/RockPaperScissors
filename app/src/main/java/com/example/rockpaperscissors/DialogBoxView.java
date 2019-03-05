@@ -2,7 +2,6 @@ package com.example.rockpaperscissors;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -15,6 +14,7 @@ public class DialogBoxView {
     public DialogBoxView(Context context){
         dialog = new Dialog(context);
         dialog.setContentView(R.layout.dialog);
+        dialog.setCancelable(false);
         getIDs();
     }
 

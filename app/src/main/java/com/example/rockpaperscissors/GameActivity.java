@@ -1,7 +1,6 @@
 package com.example.rockpaperscissors;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -29,7 +28,7 @@ public class GameActivity extends AppCompatActivity {
         startListeners();
         moveListener();
         currentGame = new Game();
-        countdown(); // How will we restart this with playagain? reinitialize this screen?
+        countdown();
         playGame();
     }
 
@@ -38,6 +37,15 @@ public class GameActivity extends AppCompatActivity {
         moveTaskToBack(false);
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        try {
+            Communication.send(Move.Quit.toString(), Server.get().getOpponentIP(), Server.APP_PORT);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void findIDs(){
         setContentView(R.layout.activity_game);
@@ -46,7 +54,6 @@ public class GameActivity extends AppCompatActivity {
         scissors = findViewById(R.id.scissors_button);
         timer = findViewById(R.id.timerView);
     }
-
 
     private void playGame() {
         new Thread(new Runnable() {
@@ -70,6 +77,9 @@ public class GameActivity extends AppCompatActivity {
         }).start();
     }
 
+    // // // // // // // // // //
+    //  User Interface Code    //
+    // // // // // // // // // //
 
     public void moveListener(){
         rockListener();
@@ -77,20 +87,6 @@ public class GameActivity extends AppCompatActivity {
         scissorsListener();
     }
 
-    private void showResult(Results result) {
-        DialogBox_GameResult resultDialog = null;
-        try {
-            resultDialog = new DialogBox_GameResult(this.context, Server.get().getOpponentIP());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        resultDialog.setResult(result);
-        resultDialog.showResults();
-    }
-
-
-    // Depending on what needs to be sent, we could make these into one generic method,
-    // but I figured we should keep it "simpler" for now by having separate methods
     public void rockListener(){
         rock.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +106,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public void paperListener(){
         paper.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +148,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void countdown(){
-        countDownTimer = new CountDownTimer(10000, 1000) {
+        countDownTimer = new CountDownTimer(5000, 1000) {
 
             public void onTick(long millisUntilFinished) {
                 timer.setText("Countdown:  " + millisUntilFinished / 1000 );
@@ -171,18 +166,9 @@ public class GameActivity extends AppCompatActivity {
         }.start();
     }
 
-
-/*    @Override
-    public void onPause() {
-        super.onPause();
-        try {
-            Communication.send(Move.Quit.toString(), Server.get().getOpponentIP(), Server.APP_PORT);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }*/
-
-
+    // // // // // // // //
+    //  Server   Code    //
+    // // // // // // // //
 
     private void initializeServerListeners() {
         incomingMove = new ServerListener() {
@@ -196,6 +182,15 @@ public class GameActivity extends AppCompatActivity {
         };
     }
 
+    private void startListeners() {
+        try {
+            Log.e(GameActivity.class.getName(), "start move listener");
+            Server.get().addListener(incomingMove);
+        } catch (IOException e) {
+            Log.e(GameActivity.class.getName(), "Could not start server");
+        }
+    }
+
     private boolean messageIsMove(String msg) {
         for (Move m : Move.values()) {
             Log.e(GameActivity.class.getName(), "check for incoming move");
@@ -206,13 +201,15 @@ public class GameActivity extends AppCompatActivity {
         return false;
     }
 
-    private void startListeners() {
+    private void showResult(Results result) {
+        DialogBox_GameResult resultDialog = null;
         try {
-            Log.e(GameActivity.class.getName(), "start move listener");
-            Server.get().addListener(incomingMove);
+            resultDialog = new DialogBox_GameResult(this.context, Server.get().getOpponentIP());
         } catch (IOException e) {
-            Log.e(GameActivity.class.getName(), "Could not start server");
+            e.printStackTrace();
         }
+        resultDialog.setResult(result);
+        resultDialog.showResults();
     }
 
 }

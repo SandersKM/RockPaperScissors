@@ -1,7 +1,5 @@
 package com.example.rockpaperscissors;
 
-import android.util.Log;
-
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;

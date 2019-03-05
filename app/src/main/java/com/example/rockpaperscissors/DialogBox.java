@@ -1,6 +1,6 @@
 package com.example.rockpaperscissors;
 
 public interface DialogBox {
-    public void setText(String IP);
-    public void setButtonListeners();
+    void setText(String IP);
+    void setButtonListeners();
 }
