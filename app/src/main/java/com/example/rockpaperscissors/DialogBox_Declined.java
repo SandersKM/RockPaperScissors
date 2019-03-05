@@ -9,9 +9,11 @@ public class DialogBox_Declined implements DialogBox{
 
     DialogBoxView dialogBoxView;
     Context context;
+    String IP;
 
     public DialogBox_Declined(Context context, String IP){
         this.context = context;
+        this.IP = IP;
         this.dialogBoxView = new DialogBoxView(context);
         setText(IP);
         dialogBoxView.showDialog();
@@ -32,7 +34,7 @@ public class DialogBox_Declined implements DialogBox{
             @Override
             public void onClick(View v) {
                 dialogBoxView.getDialog().dismiss();
-                new DialogBox_Waiting(context, "IP_address");
+                new DialogBox_Waiting(context, IP);
                 try {
                     Communication.send("PlayRockPaperScissors",
                             Server.get().getIncomingIP(), Server.APP_PORT);
