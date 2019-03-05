@@ -1,7 +1,7 @@
 package com.example.rockpaperscissors;
 
 public class Game {
-    Move myMove, otherMove;
+    private Move myMove, otherMove;
 
     public Game(){
         myMove = Move.Empty;

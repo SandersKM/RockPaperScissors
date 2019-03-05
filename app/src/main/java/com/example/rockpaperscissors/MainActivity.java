@@ -58,10 +58,10 @@ public class MainActivity extends AppCompatActivity {
         moveTaskToBack(false);
     }
 
-
-    public String getOther_IP() {
+// Not being used?
+   /* public String getOther_IP() {
         return other_IP.toString();
-    }
+    }*/
 
     public void setMy_IP(){
         try {
@@ -90,6 +90,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }).start();
     }
+
 
     private void inviteOtherPlayer() {
         invite.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +166,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initializeServerListeners() {
+        gameInviteListener();
+        acceptInviteListener();
+        declineInviteListener();
+    }
+
+
+    private void gameInviteListener() {
         gameInvite = new ServerListener() {
             @Override
             public void response(String msg) {
@@ -178,6 +186,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+
+    private void acceptInviteListener() {
         acceptInvite = new ServerListener() {
             @Override
             public void response(String msg) {
@@ -191,6 +203,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+    }
+
+
+    private void declineInviteListener() {
         declineInvite = new ServerListener() {
             @Override
             public void response(String msg) {
@@ -205,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
+
 
     // // // // // // // //
     //  Keyboard Code    //

@@ -55,19 +55,12 @@ public class GameActivity extends AppCompatActivity {
                 try {
                     while (currentGame.getMyMove().equals(Move.Empty)
                             || currentGame.getOtherMove().equals(Move.Empty)) {
-                        Log.e(GameActivity.class.getName(), "Game loop myMove:" +
-                                currentGame.getMyMove().toString()+
-                                " otherMove:"+currentGame.getOtherMove().toString());
                     }
-                    Log.e(GameActivity.class.getName(), "finished main game loop");
-                    Log.e(GameActivity.class.getName(), currentGame.getMyMove().toString()+
-                            " "+currentGame.getOtherMove().toString());
-                    Log.e(GameActivity.class.getName(),
-                            Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()).toString());
                     GameActivity.this.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            showResult(Moves.compareMoves(currentGame.getMyMove(),currentGame.getOtherMove()));
+                            showResult(Moves.compareMoves(currentGame.getMyMove(),
+                                    currentGame.getOtherMove()));
                         }
                     });
                 } catch (Exception e) {
@@ -221,6 +214,5 @@ public class GameActivity extends AppCompatActivity {
             Log.e(GameActivity.class.getName(), "Could not start server");
         }
     }
-
 
 }
