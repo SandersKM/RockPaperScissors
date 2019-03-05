@@ -10,12 +10,12 @@ import java.util.ArrayList;
  * Created by gabriel on 2/15/19.
  */
 
-public class incomingThread extends Thread {
+public class IncomingThread extends Thread {
     private Socket socket;
     private ArrayList<ServerListener> listeners = new ArrayList<>();
 
 
-    public incomingThread(Socket socket, ArrayList<ServerListener> listeners) {
+    public IncomingThread(Socket socket, ArrayList<ServerListener> listeners) {
         this.socket = socket;
         this.listeners.addAll(listeners);
     }
