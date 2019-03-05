@@ -12,21 +12,23 @@ public class MovesUnitTest extends Moves{
 
     Move myMove;
     Move otherMove;
-    Move[] moveList = new Move[3];
-    //moveList[0] = Rock;
-    //moveList[1] = Paper;
-    //moveList[2] = Move.Scissors;
+    Move[] moveList = new Move[]{Move.Rock, Move.Paper, Move.Scissors, Move.Rock};
 
     @Test
-    public void isQuitWorking() {
+    public void isMyQuitWorking() {
         myMove=Move.Quit;
         for (int x=0; x !=3; x++) {
             otherMove = moveList[x];
-            compareMoves(myMove,otherMove);
+            assertEquals(Results.TIMEOUT_THIS, compareMoves(myMove,otherMove));
+        }
+    }
 
-            // Find a way to check if the Results object from compareMoves() is being output correctly
-            // assertEquals()?
-            // ask Dr. Ferrer in meeting
+    @Test
+    public void isOtherQuitWorking() {
+        otherMove=Move.Quit;
+        for (int x=0; x !=3; x++) {
+            myMove = moveList[x];
+            assertEquals(Results.TIMEOUT_Other, compareMoves(myMove,otherMove));
         }
     }
 
@@ -35,24 +37,18 @@ public class MovesUnitTest extends Moves{
         for (int x=0; x !=3; x++) {
             myMove = moveList[x];
             otherMove = moveList[x];
-            compareMoves(myMove,otherMove);
-
-            // See comment at isQuitWorking
+            assertEquals(Results.TIE, compareMoves(myMove,otherMove));
         }
     }
 
     @Test
     public void isWinWorking(){
-        for (int x=1; x !=3; x++) {
+        for (int x=1; x !=4; x++) {
             myMove = moveList[x];
             otherMove = moveList[x - 1];
-            compareMoves(myMove, otherMove);
-            // See comment at isQuitWorking
+            assertEquals(Results.WIN, compareMoves(myMove, otherMove));
         }
-        myMove=Rock;
-        otherMove=Scissors;
-        compareMoves(myMove, otherMove);
-        // See comment at isQuitWorking
+
     }
 
     @Test
@@ -60,13 +56,8 @@ public class MovesUnitTest extends Moves{
         for (int x=0; x !=3; x++) {
             myMove = moveList[x];
             otherMove = moveList[x+1];
-            compareMoves(myMove, otherMove);
-            // See comment at isQuitWorking
+            assertEquals(Results.LOSE, compareMoves(myMove, otherMove));
         }
-        myMove=Scissors;
-        otherMove=Paper;
-        compareMoves(myMove, otherMove);
-        // See comment at isQuitWorking
     }
 
 
