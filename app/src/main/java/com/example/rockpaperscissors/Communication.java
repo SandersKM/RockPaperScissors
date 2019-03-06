@@ -20,7 +20,6 @@ public class Communication {
         new Thread() {
             @Override
             public void run() {
-
                 try {
                     Socket target = new Socket(host, port);
                     sendOver(target, message);

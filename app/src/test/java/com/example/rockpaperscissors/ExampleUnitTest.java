@@ -298,31 +298,4 @@ public class ExampleUnitTest {
     }
 
 
-/*    @Test
-    public void test_send_receive() throws Exception {
-        final String testMsg = "This is a test.\nThis is only a test.\n";
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    System.out.println("test1");
-                    Server.get().listenOnce().start();
-                    System.out.println("test2");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-        System.out.println("test3");
-        Socket test = new Socket("localhost", Server.APP_PORT);
-        System.out.println("test4");
-        Communication.sendOver(test, testMsg);
-        System.out.println("test5"+testMsg);
-        String result = Communication.receive(test);
-        System.out.println("test6"+result);
-        assertEquals(testMsg, result);
-        System.out.println("test7");
-    }*/
-
 }
