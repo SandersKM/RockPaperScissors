@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button[] digitKeys;
     Server s;
     TextView my_IP, other_IP, other_port, incoming, test;
-    ServerListener gameInvite, acceptInvite, declineInvite, incomingMove;
+    ServerListener gameInvite, acceptInvite, declineInvite, incomingMove, inviteExample;
     IP_AddressEditor editor;
 
     @Override
@@ -207,21 +207,47 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void declineInviteListener() {
-        declineInvite = new ServerListener() {
+        declineInvite = new DeclineInviteListener() {
             @Override
-            public void response(String msg) {
-                if (msg.equals("no\n")) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            setDeclined();
-                        }
-                    });
-                }
+            void handleDecline() {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setDeclined();
+                    }
+                });
             }
         };
     }
 
+    private void inviteListener() {
+        inviteExample = new InviteListener() {
+            @Override
+            void handleDecline() {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        setDeclined();
+                    }
+                });
+            }
+
+            @Override
+            void handleAccept() {
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            Server.get().setOpponentIP(Server.get().getIncomingIP());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        toGameActivity();
+                    }
+                });
+            }
+        };
+    }
 
     // // // // // // // //
     //  Keyboard Code    //
