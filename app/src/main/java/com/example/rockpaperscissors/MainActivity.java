@@ -17,9 +17,8 @@ public class MainActivity extends AppCompatActivity {
     final Context context = this;
     Button invite, keyboard_dot, keyboard_back;
     Button[] digitKeys;
-    Server s;
-    TextView my_IP, other_IP, other_port, incoming, test;
-    ServerListener gameInvite, acceptInvite, declineInvite, incomingMove, inviteExample;
+    TextView my_IP, other_IP;
+    ServerListener gameInvite, acceptInvite, declineInvite, inviteExample;
     IP_AddressEditor editor;
 
     @Override
@@ -30,8 +29,14 @@ public class MainActivity extends AppCompatActivity {
         setupKeyboard();
         inviteOtherPlayer();
         initializeServerListeners();
-        startListeners();
+        setServerListeners();
     }
+
+    @Override
+    public void onBackPressed(){
+        moveTaskToBack(false);
+    }
+
 
     public void findIDs(){
         setContentView(R.layout.activity_main);
@@ -53,10 +58,6 @@ public class MainActivity extends AppCompatActivity {
         keyboard_back = findViewById(R.id.back);
     }
 
-    @Override
-    public void onBackPressed(){
-        moveTaskToBack(false);
-    }
 
     public void setMy_IP(){
         try {
@@ -64,26 +65,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (SocketException e) {
             Log.e("MainActivity", "Threw exception when finding ip address");
         }
-    }
-
-    // // // // // // // //
-    //  Client-Server    //
-    // // // // // // // //
-
-    public void startListeners() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Server.get().addListener(gameInvite);
-                    Server.get().addListener(acceptInvite);
-                    Server.get().addListener(declineInvite);
-                    Server.get().listen();
-                } catch (IOException e) {
-                    Log.e(MainActivity.class.getName(), "Could not start server");
-                }
-            }
-        }).start();
     }
 
 
@@ -98,74 +79,30 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // // // // // // // //
-    //  Dialog Box Code  //
+    //  Client-Server    //
     // // // // // // // //
-
-
-    // https://www.mkyong.com/android/android-custom-dialog-example/
-    private void setInvitation() {
-        try {
-            new DialogBox_Invitation(context, Server.get().getIncomingIP());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void setWaitingForResponse(){
-        DialogBox_Waiting waitingBox = new DialogBox_Waiting(context, other_IP.getText().toString());
-        initAcceptInvite(waitingBox);
-        initDeclineInvite(waitingBox);
-    }
-
-    private void initDeclineInvite(final DialogBox_Waiting waitingBox) {
-        declineInvite = new ServerListener() {
-            @Override
-            public void response(String msg) {
-                if (msg.equals("no\n")) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            waitingBox.dialogBoxView.getDialog().dismiss();
-                            setDeclined();
-                        }
-                    });
-                }
-            }
-        };
-    }
-
-    private void initAcceptInvite(final DialogBox_Waiting waitingBox) {
-        acceptInvite = new ServerListener() {
-            @Override
-            public void response(String msg) {
-                if (msg.equals("yes\n")) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toGameActivity();
-                            waitingBox.dialogBoxView.getDialog().dismiss();
-                        }
-                    });
-                }
-            }
-        };
-    }
-
-    private void setDeclined(){
-        new DialogBox_Declined(context, other_IP.getText().toString());
-    }
-
-    private void toGameActivity(){
-        Intent forwardIntent = new Intent(context, GameActivity.class);
-        context.startActivity(forwardIntent);
-    }
-
     private void initializeServerListeners() {
         gameInviteListener();
         acceptInviteListener();
         declineInviteListener();
     }
 
+    public void setServerListeners() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Server.get().clearListeners();
+                    Server.get().addListener(gameInvite);
+                    Server.get().addListener(acceptInvite);
+                    Server.get().addListener(declineInvite);
+                    Server.get().listen();
+                } catch (IOException e) {
+                    Log.e(MainActivity.class.getName(), "Could not start server");
+                }
+            }
+        }).start();
+    }
 
     private void gameInviteListener() {
         gameInvite = new ServerListener() {
@@ -182,7 +119,6 @@ public class MainActivity extends AppCompatActivity {
             }
         };
     }
-
 
     private void acceptInviteListener() {
         acceptInvite = new ServerListener() {
@@ -249,11 +185,74 @@ public class MainActivity extends AppCompatActivity {
         };
     }
 
+    private void initAcceptInvite(final DialogBox_Waiting waitingBox) {
+        acceptInvite = new ServerListener() {
+            @Override
+            public void response(String msg) {
+                if (msg.equals("yes\n")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            toGameActivity();
+                            waitingBox.dialogBoxView.getDialog().dismiss();
+                        }
+                    });
+                }
+            }
+        };
+    }
+
+    private void initDeclineInvite(final DialogBox_Waiting waitingBox) {
+        declineInvite = new ServerListener() {
+            @Override
+            public void response(String msg) {
+                if (msg.equals("no\n")) {
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            waitingBox.dialogBoxView.getDialog().dismiss();
+                            setDeclined();
+                        }
+                    });
+                }
+            }
+        };
+    }
+
+    // // // // // // // //
+    //  Dialog Box Code  //
+    // // // // // // // //
+    // https://www.mkyong.com/android/android-custom-dialog-example/
+    private void setInvitation() {
+        try {
+            new DialogBox_Invitation(context, Server.get().getIncomingIP());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setWaitingForResponse(){
+        DialogBox_Waiting waitingBox = new DialogBox_Waiting(context, other_IP.getText().toString());
+        initAcceptInvite(waitingBox);
+        initDeclineInvite(waitingBox);
+    }
+
+
+
+    private void setDeclined(){
+        new DialogBox_Declined(context, other_IP.getText().toString());
+    }
+
+    private void toGameActivity(){
+        Intent forwardIntent = new Intent(context, GameActivity.class);
+        context.startActivity(forwardIntent);
+    }
+
+
+
     // // // // // // // //
     //  Keyboard Code    //
     // // // // // // // //
-
-
     private void setupKeyboard(){
         this.editor = new IP_AddressEditor();
         setListeners();

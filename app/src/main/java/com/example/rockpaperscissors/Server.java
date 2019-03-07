@@ -35,8 +35,8 @@ public class Server  {
         this.listeners.add(listener);
     }
 
-    public void removeListener (ServerListener listener) {
-        this.listeners.remove(listener);
+    public void clearListeners () {
+        this.listeners.clear();
     }
 
     public void listen() throws IOException {

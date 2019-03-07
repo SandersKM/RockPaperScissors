@@ -25,7 +25,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         findIDs();
         initializeServerListeners();
-        startListeners();
+        setServerListeners();
         moveListener();
         currentGame = new Game();
         countdown();
@@ -167,6 +167,14 @@ public class GameActivity extends AppCompatActivity {
     // // // // // // // //
     //  Server   Code    //
     // // // // // // // //
+    private void setServerListeners() {
+        try {
+            Server.get().clearListeners();
+            Server.get().addListener(incomingMove);
+        } catch (IOException e) {
+            Log.e(GameActivity.class.getName(), "Could not start server");
+        }
+    }
 
     private void initializeServerListeners() {
         incomingMove = new ServerListener() {
@@ -179,18 +187,8 @@ public class GameActivity extends AppCompatActivity {
         };
     }
 
-    private void startListeners() {
-        try {
-            Log.e(GameActivity.class.getName(), "start move listener");
-            Server.get().addListener(incomingMove);
-        } catch (IOException e) {
-            Log.e(GameActivity.class.getName(), "Could not start server");
-        }
-    }
-
     private boolean messageIsMove(String msg) {
         for (Move m : Move.values()) {
-            Log.e(GameActivity.class.getName(), "check for incoming move");
             if (m.toString().equals(msg)) {
                 return true;
             }

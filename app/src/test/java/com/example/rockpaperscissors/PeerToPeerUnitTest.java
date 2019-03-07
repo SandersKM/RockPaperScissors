@@ -10,7 +10,6 @@ public class PeerToPeerUnitTest {
     @Test
     public void test_send() throws Exception {
         final String testMsg = "This is a test.\nThis is only a test.\n";
-        String result;
         final Flag flag = new Flag();
         startServer(new ServerListener(){
             @Override
@@ -78,6 +77,8 @@ public class PeerToPeerUnitTest {
     public void test_set_move_Received() {
 
     }
+
+    @Test
     public void test_set_myMove() {
         Game g = new Game();
         g.setMyMove(Move.Rock);
