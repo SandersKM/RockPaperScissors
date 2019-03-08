@@ -19,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     Button[] digitKeys;
     TextView my_IP, other_IP;
     ServerListener gameInvite, acceptInvite, declineInvite, inviteExample;
-    IP_AddressEditor editor;
+    Keyboard keyboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,19 +43,6 @@ public class MainActivity extends AppCompatActivity {
         invite = findViewById(R.id.request_button);
         my_IP = findViewById(R.id.IP_device);
         other_IP = findViewById(R.id.IP_textbox);
-        digitKeys = new Button[10];
-        digitKeys[0] = findViewById(R.id.zero);
-        digitKeys[1] = findViewById(R.id.one);
-        digitKeys[2] = findViewById(R.id.two);
-        digitKeys[3] = findViewById(R.id.three);
-        digitKeys[4] = findViewById(R.id.four);
-        digitKeys[5] = findViewById(R.id.five);
-        digitKeys[6] = findViewById(R.id.six);
-        digitKeys[7] = findViewById(R.id.seven);
-        digitKeys[8] = findViewById(R.id.eight);
-        digitKeys[9] = findViewById(R.id.nine);
-        keyboard_dot = findViewById(R.id.dot);
-        keyboard_back = findViewById(R.id.back);
     }
 
 
@@ -254,90 +241,6 @@ public class MainActivity extends AppCompatActivity {
     //  Keyboard Code    //
     // // // // // // // //
     private void setupKeyboard(){
-        this.editor = new IP_AddressEditor();
-        setListeners();
-        setAbilities();
-    }
-
-    private void setListeners() {
-        setDigitsListener();
-        setDotListener();
-        setBackspaceListener();
-    }
-
-    private void setBackspaceListener() {
-        keyboard_back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.backspace();
-                updateView();
-            }
-        });
-    }
-
-    private void setDotListener() {
-        keyboard_dot.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editor.addDot();
-                updateView();
-            }
-        });
-    }
-
-    private void setDigitsListener() {
-        for(final Button digit: digitKeys){
-            digit.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    editor.addDigit(digit.getText().toString());
-                    updateView();
-                }
-            });
-        }
-    }
-
-    private void updateView() {
-        other_IP.setText(editor.getIP());
-        setAbilities();
-    }
-
-    private void setAbilities(){
-        pressInviteAbility();
-        pressDigitAbility();
-        pressDotAbility();
-    }
-
-    private void pressDotAbility() {
-        if(editor.canAddDot()){
-            keyboard_dot.setEnabled(true);
-        }
-        else{
-            keyboard_dot.setEnabled(false);
-        }
-    }
-
-    private void pressDigitAbility() {
-        if(editor.consecutiveDigitLimitReached()){
-            setDigitAbility(false);
-        }
-        else{
-            setDigitAbility(true);
-        }
-    }
-
-    private void setDigitAbility(boolean state) {
-        for(final Button digit: digitKeys){
-            digit.setEnabled(state);
-        }
-    }
-
-    private void pressInviteAbility() {
-        if(editor.isValidIP()){
-            invite.setEnabled(true);
-        }
-        else{
-            invite.setEnabled(false);
-        }
+        keyboard = new Keyboard(this);
     }
 }
