@@ -36,7 +36,7 @@ public class DialogBox_Invitation implements DialogBox{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                dialogBoxView.getDialog().dismiss();
+                exit();
             }
         });
         dialogBoxView.getYes().setOnClickListener(new View.OnClickListener() {
@@ -48,7 +48,7 @@ public class DialogBox_Invitation implements DialogBox{
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                dialogBoxView.getDialog().dismiss();
+                exit();
                 toGameActivity();
             }
         });
@@ -57,6 +57,11 @@ public class DialogBox_Invitation implements DialogBox{
     private void toGameActivity(){
         Intent forwardIntent = new Intent(context, GameActivity.class);
         context.startActivity(forwardIntent);
+    }
+
+    @Override
+    public void exit() {
+        dialogBoxView.getDialog().dismiss();
     }
 
 }

@@ -33,7 +33,7 @@ public class DialogBox_Declined implements DialogBox{
         dialogBoxView.getNo().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogBoxView.getDialog().dismiss();
+                exit();
                 new DialogBox_Waiting(context, IP);
                 try {
                     Communication.send("PlayRockPaperScissors",
@@ -46,8 +46,13 @@ public class DialogBox_Declined implements DialogBox{
         dialogBoxView.getYes().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogBoxView.getDialog().dismiss();
+                exit();
             }
         });
+    }
+
+    @Override
+    public void exit() {
+        dialogBoxView.getDialog().dismiss();
     }
 }

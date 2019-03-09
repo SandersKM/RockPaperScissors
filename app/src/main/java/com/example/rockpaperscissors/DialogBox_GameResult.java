@@ -28,14 +28,14 @@ public class DialogBox_GameResult implements DialogBox{
         dialogBoxView.getNo().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogBoxView.getDialog().dismiss();
+                exit();
                 toMainActivity();
             }
         });
         dialogBoxView.getYes().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogBoxView.getDialog().dismiss();
+                exit();
                 new DialogBox_Waiting(context, IP);
             }
         });
@@ -54,5 +54,10 @@ public class DialogBox_GameResult implements DialogBox{
     private void toMainActivity(){
         Intent forwardIntent = new Intent(context, MainActivity.class);
         context.startActivity(forwardIntent);
+    }
+
+    @Override
+    public void exit() {
+        dialogBoxView.getDialog().dismiss();
     }
 }

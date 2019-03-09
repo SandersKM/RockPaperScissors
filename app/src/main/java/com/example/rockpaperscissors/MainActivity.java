@@ -15,11 +15,11 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     final Context context = this;
-    Button invite, keyboard_dot, keyboard_back;
-    Button[] digitKeys;
+    Button invite;
     TextView my_IP, other_IP;
     ServerListener gameInvite, acceptInvite, declineInvite, inviteExample;
     Keyboard keyboard;
+    DialogBox dialogBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
                             } catch (IOException e) {
                                 e.printStackTrace();
                             }
+                            dialogBox.exit();
                             toGameActivity();
                         }
                     });
@@ -136,72 +137,10 @@ public class MainActivity extends AppCompatActivity {
                 MainActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        dialogBox.exit();
                         setDeclined();
                     }
                 });
-            }
-        };
-    }
-
-    private void inviteListener() {
-        inviteExample = new InviteListener() {
-            @Override
-            void handleDecline() {
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        setDeclined();
-                    }
-                });
-            }
-
-            @Override
-            void handleAccept() {
-                MainActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Server.get().setOpponentIP(Server.get().getIncomingIP());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                        toGameActivity();
-                    }
-                });
-            }
-        };
-    }
-
-    private void initAcceptInvite(final DialogBox_Waiting waitingBox) {
-        acceptInvite = new ServerListener() {
-            @Override
-            public void response(String msg) {
-                if (msg.equals("yes\n")) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            toGameActivity();
-                            waitingBox.dialogBoxView.getDialog().dismiss();
-                        }
-                    });
-                }
-            }
-        };
-    }
-
-    private void initDeclineInvite(final DialogBox_Waiting waitingBox) {
-        declineInvite = new ServerListener() {
-            @Override
-            public void response(String msg) {
-                if (msg.equals("no\n")) {
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            waitingBox.dialogBoxView.getDialog().dismiss();
-                            setDeclined();
-                        }
-                    });
-                }
             }
         };
     }
@@ -212,22 +151,20 @@ public class MainActivity extends AppCompatActivity {
     // https://www.mkyong.com/android/android-custom-dialog-example/
     private void setInvitation() {
         try {
-            new DialogBox_Invitation(context, Server.get().getIncomingIP());
+            dialogBox = new DialogBox_Invitation(context, Server.get().getIncomingIP());
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
     private void setWaitingForResponse(){
-        DialogBox_Waiting waitingBox = new DialogBox_Waiting(context, other_IP.getText().toString());
-        initAcceptInvite(waitingBox);
-        initDeclineInvite(waitingBox);
+        dialogBox = new DialogBox_Waiting(context, other_IP.getText().toString());
     }
 
 
 
     private void setDeclined(){
-        new DialogBox_Declined(context, other_IP.getText().toString());
+        dialogBox = new DialogBox_Declined(context, other_IP.getText().toString());
     }
 
     private void toGameActivity(){

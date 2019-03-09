@@ -29,8 +29,13 @@ public class DialogBox_Waiting implements DialogBox{
         dialogBoxView.getNo().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogBoxView.getDialog().dismiss();
+                exit();
             }
         });
+    }
+
+    @Override
+    public void exit() {
+        dialogBoxView.getDialog().dismiss();
     }
 }
