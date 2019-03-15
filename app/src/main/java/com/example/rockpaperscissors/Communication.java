@@ -26,12 +26,7 @@ public class Communication {
                     Log.e(Communication.class.getName(), "Sending message: "+message);
                     target.close();
                 } catch (final Exception e) {
-                    /*MainActivity.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utilities.notifyException(MainActivity.this, e);
-                        }
-                    });*/
+                    Log.e("Communication", "Could not send: "+ message);
                 }
             }
         }.start();
